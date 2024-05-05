@@ -1,5 +1,6 @@
 import Grid from "../components/Grid";
 import Header from "../components/Header";
+import Buy from "./Buy";
 import Creators from "./Creators";
 import Hero from "./Hero";
 import Live from "./Live";
@@ -19,6 +20,7 @@ const Home = () => {
             <Live />
             <Creators />
             <Works />
+            <Buy />
         </Grid>
     )
 }
