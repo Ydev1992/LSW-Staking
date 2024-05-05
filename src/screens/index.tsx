@@ -6,6 +6,7 @@ import Live from "./Live";
 import Page from "./Page";
 import Payment from "./Payment";
 import Testimonial from "./Testimonial";
+import Works from "./Works";
 
 const Home = () => {
     return (
@@ -17,6 +18,7 @@ const Home = () => {
             <Payment />
             <Live />
             <Creators />
+            <Works />
         </Grid>
     )
 }

@@ -38,7 +38,7 @@ const Header = () => {
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
 
-  const pathUrl = "/"
+  //const pathUrl = "/"
 
   // Sticky menu
   const handleStickyMenu = () => {

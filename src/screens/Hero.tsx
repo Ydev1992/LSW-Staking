@@ -4,8 +4,8 @@ import Grid from "../components/Grid";
 
 const Hero = () => {
     return (
-        <section className="overflow-hidden mt-[7%]">
-            <div className="grid grid-cols-2 justify-between lg:px-10 bg-gradient-to-r from-[#000F16] to-[#213A4A] p-4">
+        <section className="overflow-hidden mt-[25%] md:mt-[7%]">
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-10 bg-gradient-to-r from-[#000F16] to-[#213A4A] p-4">
                 <Grid className="w-full h-full justify-center gap-1">
                     <h2 className="bg-clip-text text-transparent bg-gradient-to-r from-[#00C2B6] to-[#5865F2] lg:text-3xl font-bold">LIVE STREAMING POWER</h2>
                     <h3 className="lg:text-xl font-bold text-white">Power your Stream</h3>
