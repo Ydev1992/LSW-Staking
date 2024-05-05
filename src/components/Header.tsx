@@ -14,34 +14,22 @@ type Menu = {
 const menuData: Menu[] = [
   {
     id: 1,
-    title: "Home",
+    title: "STAKE TO EARN",
     newTab: false,
     path: "/",
   },
   {
     id: 2,
-    title: "Services",
+    title: "ABOUT",
     newTab: false,
     path: "/#features",
   },
   {
     id: 2.1,
-    title: "Technlogies",
+    title: "HELP",
     newTab: false,
     path: "/#technology",
-  },
-  {
-    id: 3,
-    title: "About",
-    newTab: false,
-    path: "/#about",
-  },
-  {
-    id: 4,
-    title: "Contact",
-    newTab: false,
-    path: "/#contact",
-  },
+  }
 
 ];
 
@@ -160,11 +148,7 @@ const Header = () => {
                   ) : (
                     <a
                       href={`${menuItem.path}`}
-                      className={
-                        pathUrl === menuItem.path
-                          ? "text-primary hover:text-primary"
-                          : "hover:text-primary"
-                      }
+                      className="text-white"
                     >
                       {menuItem.title}
                     </a>

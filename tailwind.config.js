@@ -20,7 +20,7 @@ export default {
         black: "#181C31",
         blackho: "#2C3149",
         blacksection: "#1C2136",
-        primary: "#10E0D0",
+        primary: "#030F16",
         primaryho: "#61f2e7",
         meta: "#20C5A8",
         waterloo: "#757693",

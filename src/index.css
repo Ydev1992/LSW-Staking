@@ -4,10 +4,13 @@
 
 /* third-party libraries CSS */
 
+h1,h2,h3,h4,h5,img{
+  user-select: none;
+}
 
 @layer base {
   body {
-    @apply relative z-1 font-inter text-regular font-normal text-waterloo dark:text-manatee;
+    @apply relative z-1 font-inter text-regular font-normal text-waterloo dark:text-manatee bg-primary;
   }
 }
 
