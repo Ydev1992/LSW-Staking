@@ -4,9 +4,12 @@ import Buy from "./Buy";
 import Creators from "./Creators";
 import Hero from "./Hero";
 import Live from "./Live";
+import Lsw from "./Lsw";
 import Page from "./Page";
 import Payment from "./Payment";
+import RoadMap from "./RoadMap";
 import Testimonial from "./Testimonial";
+import Tokenomics from "./Tokenomics";
 import Works from "./Works";
 
 const Home = () => {
@@ -21,6 +24,9 @@ const Home = () => {
             <Creators />
             <Works />
             <Buy />
+            <RoadMap />
+            <Tokenomics />
+            <Lsw />
         </Grid>
     )
 }

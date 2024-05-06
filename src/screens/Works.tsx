@@ -3,7 +3,7 @@ import Grid from "../components/Grid"
 const Works = () => {
     return (
         <section className="overflow-hidden">
-            <div className="grid grid-cols-1 justify-between lg:px-10 bg-gradient-to-r from-[#000F16] to-[#213A4A] p-4">
+            <div className="grid grid-cols-1 justify-between lg:px-20 p-6 py-[5%] gap-10">
                 <Grid className="w-full h-full justify-center gap-1">
                     <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-6xl font-bold">HOW IT WORKS?</h2>
                     <h2 className="lg:text-lg text-white font-semibold">HERE IS THE MAGIC</h2>
