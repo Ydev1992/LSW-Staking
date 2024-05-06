@@ -18,11 +18,11 @@ const Hero = () => {
                     </Grid>
 
                 </Grid>
-                <Grid className="items-center justify-center max-h-[50vh]">
+                <Grid className="items-center justify-center max-h-[60vh]">
                     <Image
                         src={Chart}
                         alt="bg-image"
-                        classname="w-full h-full object-fill"
+                        classname="w-full h-full object-cover"
                     />
                 </Grid>
             </div>

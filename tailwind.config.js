@@ -3,7 +3,7 @@ export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     fontFamily: {
-      inter: ["Inter", "sans-serif"],
+      inter: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
     },
     extend: {
       colors: {
@@ -30,7 +30,7 @@ export default {
         socialicon: "#D1D8E0",
       },
       fontFamily: {
-        inter: ['var(--font-inter)', 'sans-serif'],
+        inter: ['var(--font-inter)', "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
       },
       fontSize: {
         metatitle: ["12px", "20px"],

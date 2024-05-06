@@ -1,6 +1,7 @@
 import Grid from "../components/Grid";
 import Header from "../components/Header";
 import Buy from "./Buy";
+import Converter from "./Converter";
 import Creators from "./Creators";
 import Hero from "./Hero";
 import Live from "./Live";
@@ -17,6 +18,7 @@ const Home = () => {
         <Grid className="w-full h-full">
             <Header />
             <Hero />
+            <Converter />
             <Testimonial />
             <Page />
             <Payment />
