@@ -6,19 +6,19 @@ import Image from "../components/Image";
 const RoadMap = () => {
     return (
         <section className="overflow-hidden">
-            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%]">
+            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[2%]">
 
                 <Grid className="md:w-[50%] h-full justify-center gap-4 items-center">
-                    <h2 className="bg-clip-text text-transparent bg-gradient-to-l to-[#00C2B6] from-[#5865F2] lg:text-5xl font-bold">ROAD MAP</h2>
-                    <h2 className="text-gray-400 lg:text-md text-center font-normal">Our project roadmap is set out in four phases, starting with a fair presale to raise the necessary funds for marketing and solution development and ending with the fully developed Live Streaming Wire platform. </h2>
+                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-7xl font-black font-inter">ROAD MAP</h2>
+                    <h2 className="text-gray-400 lg:text-2xl text-center font-normal">Our project roadmap is set out in four phases, starting with a fair presale to raise the necessary funds for marketing and solution development and ending with the fully developed Live Streaming Wire platform. </h2>
                 </Grid>
                 <Grid className="absolute -z-40">
                     <Image src={Vector} />
                 </Grid>
                 <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-center md:gap-20 gap-10 z-10">
-                    <Grid className="gap-3 items-center md:items-start shadow-xl  rounded-lg px-8 py-20 max-w-[350px] z-10">
+                    <Grid className="gap-3 items-center md:items-start shadow-xl  rounded-lg px-8 py-20 max-w-[470px] z-10">
                         <h2 className="font-bold text-lg text-white"><span className="text-[#5865F2]">PHASE 1: </span>PRESALE AND TOKEN DISTRIBUTION </h2>
-                        <h2 className="bg-clip-text text-transparent bg-gradient-to-l to-[#00C2B6] from-[#5865F2] lg:text-4xl font-bold">PRESALE</h2>
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-l to-[#00C2B6] from-[#5865F2] lg:text-5xl font-bold font-inter">PRESALE</h2>
                         <ul className="space-y-4 list-disc text-sm text-gray-400 font-medium px-4">
                             <li>
                                 Industry research and

@@ -11,6 +11,7 @@ import Payment from "./Payment";
 import RoadMap from "./RoadMap";
 import Testimonial from "./Testimonial";
 import Tokenomics from "./Tokenomics";
+import Wire from "./Wire";
 import Works from "./Works";
 
 const Home = () => {
@@ -20,6 +21,7 @@ const Home = () => {
             <Hero />
             <Converter />
             <Testimonial />
+            <Wire />
             <Page />
             <Payment />
             <Live />

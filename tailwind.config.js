@@ -2,9 +2,6 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    fontFamily: {
-      inter: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
-    },
     extend: {
       colors: {
         current: "currentColor",
@@ -20,7 +17,7 @@ export default {
         black: "#181C31",
         blackho: "#2C3149",
         blacksection: "#1C2136",
-        primary: "#030F16",
+        primary: "#000F16",
         primaryho: "#61f2e7",
         meta: "#20C5A8",
         waterloo: "#757693",
@@ -30,7 +27,7 @@ export default {
         socialicon: "#D1D8E0",
       },
       fontFamily: {
-        inter: ['var(--font-inter)', "ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+        inter: ['Orbitron', 'sans-serif'],
       },
       fontSize: {
         metatitle: ["12px", "20px"],
