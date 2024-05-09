@@ -8,7 +8,7 @@ const Logo = () => {
                 alt="logo"
                 width={187}
                 height={50}
-                className="hidden w-full dark:block"
+                className="w-full h-full md:w-[187px] md:h-[50px]"
             />
         </a>
     )

@@ -47,5 +47,10 @@ h1,h2,h3,h4,h5,img,li{
 }
 
 
+ul {
+  list-style-image: linear-gradient(to bottom, #00C2B6, #5865F2);
+}
 
-
+nav ul{
+  list-style: none;
+}

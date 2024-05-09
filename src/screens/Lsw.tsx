@@ -16,27 +16,27 @@ const Lsw = () => {
                         </Grid>
 
                         <Grid className="gap-4">
-                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black">WHAT IS LSW</h2>
-                            <p className="text-gray-400 lg:text-[32px] lg:leading-[38px] font-normal">LSW is a cryptocurrency designed to revolutionize the live streaming experience. It empowers viewers to directly support creators across different platforms with lower fees, while offering creators new monetization opportunities and fostering a more connected community.</p>
+                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black text-3xl">WHAT IS LSW</h2>
+                            <p className="text-gray-400 lg:text-[32px] lg:leading-[38px] font-normal text-lg">LSW is a cryptocurrency designed to revolutionize the live streaming experience. It empowers viewers to directly support creators across different platforms with lower fees, while offering creators new monetization opportunities and fostering a more connected community.</p>
                         </Grid>
                     </Block>
 
                     <Grid className="px-[8%] mt-[4%]">
 
                         <ul className="space-y-8 text-gray-500 list-[square] text-[38px] dark:text-gray-400">
-                            <li className="lg:text-[32px] font-bold text-white font-inter">
+                            <li className="lg:text-[32px] font-bold text-white font-inter text-2xl">
                                 How does LSW benefit viewers?
                             </li>
-                            <li className="lg:text-[32px] font-bold text-white font-inter">
+                            <li className="lg:text-[32px] font-bold text-white font-inter text-2xl">
                                 How does LSW benefit creators?
 
                             </li>
-                            <li className="lg:text-[32px] font-bold text-white font-inter">
+                            <li className="lg:text-[32px] font-bold text-white font-inter text-2xl">
                                 How are LSW tokens allocated?
 
                             </li>
 
-                            <li className="lg:text-[32px] font-bold text-white font-inter">
+                            <li className="lg:text-[32px] font-bold text-white font-inter text-2xl">
                                 Where can I learn more about LSW?
 
                             </li>

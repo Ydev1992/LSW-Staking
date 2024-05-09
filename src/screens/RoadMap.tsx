@@ -12,8 +12,8 @@ const RoadMap = () => {
             <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%]">
 
                 <Grid className="md:w-[50%] h-full justify-center gap-4 items-center">
-                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter">ROAD MAP</h2>
-                    <h2 className="text-gray-400 lg:text-[32px] lg:leading-[38px] text-center font-normal">Our project roadmap is set out in four phases, starting with a fair presale to raise the necessary funds for marketing and solution development and ending with the fully developed Live Streaming Wire platform. </h2>
+                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter text-3xl">ROAD MAP</h2>
+                    <h2 className="text-gray-400 lg:text-[32px] lg:leading-[38px] text-center font-normal text-lg">Our project roadmap is set out in four phases, starting with a fair presale to raise the necessary funds for marketing and solution development and ending with the fully developed Live Streaming Wire platform. </h2>
                 </Grid>
                 <Grid className="absolute -z-40">
                     <Image src={Vector} />

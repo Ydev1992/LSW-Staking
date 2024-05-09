@@ -8,20 +8,20 @@ import Block from "../components/Block";
 
 const Buy = () => {
     return (
-        <section className="overflow-hidden">
+        <section className="overflow-hidden mt-[4%]">
             <Grid className="py-[2%] gap-10">
                 <Block className="w-full h-full gap-4 justify-between">
                     <Block className="gap-4 px-6 md:px-10">
-                        <div className="md:w-[105px] md:h-[222px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2]" />
+                        <div className="md:w-[105px] md:h-[222px] h-[50px] w-[50px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2]" />
                         <Grid className="gap-2">
-                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter">HOW TO BUY</h2>
+                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter text-2xl">HOW TO BUY</h2>
                             <h2 className="text-white lg:text-[40px] lg:leading-[50px] font-bold font-inter">How To Access lSW Ecosystem</h2>
                         </Grid>
                     </Block>
 
                     <div className="w-[30%] h-2 bg-gradient-to-r to-[#00C2B6] from-[#5865F2] self-center" />
                 </Block>
-                <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-8 md:gap-60 md:px-30 px-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 justify-between items-center gap-10 md:gap-60 md:px-30 px-6 text-center md:text-start">
                     <Grid className="gap-3 items-center md:items-start">
                         <Image
                             src={Money}

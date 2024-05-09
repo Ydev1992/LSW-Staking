@@ -19,8 +19,8 @@ const Tokenomics = () => {
                 </Grid>
                 <Grid className="w-full h-full justify-between gap-6">
 
-                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black">Tokenomics</h2>
-                    <Grid className="gap-8 text-white lg:text-[32px] lg:leading-[38px] font-normal">
+                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black text-3xl">Tokenomics</h2>
+                    <Grid className="gap-8 text-white lg:text-[32px] lg:leading-[38px] font-normal text-lg">
                         <h2>LSW (Live Streaming Wire) understands the importance of a thriving ecosystem. Our token allocation reflects this, with resources strategically distributed to empower creators, fuel platform growth, and reward our incredible community.</h2>
                         <h2>42.5 Of LSW Supply will be used to Develop the business solution and fund the Operations of Live streaming Wire.</h2>
                         <h2>35% of LSW Tokens will be used for Platform growth and marketing will be fueled by strategic campaigns, ongoing platform development, and key partnerships. A Significant portion will be is dedicated to creators, including direct support pools, exclusive content creation grants, and community engagement programs.</h2>

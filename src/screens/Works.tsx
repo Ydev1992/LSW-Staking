@@ -5,23 +5,23 @@ const Works = () => {
     return (
         <section className="overflow-hidden">
             <div className="grid grid-cols-1 justify-between lg:px-20 p-6 py-[5%] gap-10">
-                <Block className="gap-8">
-                    <div className="md:w-[105px] md:h-[222px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2] self-start" />
+                <Block className="gap-4 md:gap-8">
+                    <div className="md:w-[105px] md:h-[222px] h-[50px] w-[80px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2] self-start" />
                     <Grid className="gap-6">
-                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-inter font-black">HOW IT WORKS?</h2>
-                        <Block className="justify-between !items-start pr-20">
-                            <h2 className="lg:text-[64px] lg:leading-[80px] text-white font-semibold font-inter w-full">HERE IS THE MAGIC</h2>
-                            <h2 className="lg:text-[40px] lg:leading-[47px] text-gray-400 font-medium w-full">LSW cuts out the middleman, so creators get more and viewers pay less. Plus, the ability to support your creators on any platform. Basically, LSW makes live streaming mor rewarding for everyone. </h2>
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-inter font-black text-3xl">HOW IT WORKS?</h2>
+                        <Block className="justify-between !items-start md:pr-20 flex-col md:flex-row gap-4 md:gap-0">
+                            <h2 className="lg:text-[64px] lg:leading-[80px] text-white font-semibold font-inter w-full text-2xl">HERE IS THE MAGIC</h2>
+                            <h2 className="lg:text-[40px] lg:leading-[47px] text-gray-400 font-medium w-full text-lg">LSW cuts out the middleman, so creators get more and viewers pay less. Plus, the ability to support your creators on any platform. Basically, LSW makes live streaming mor rewarding for everyone. </h2>
                         </Block>
 
                     </Grid>
 
                 </Block>
-                <div className="flex flex-col md:flex-row justify-between mt-[5%]">
+                <div className="flex flex-col md:flex-row justify-between mt-[5%] gap-8 md:gap-0">
                     <Grid className="md:w-[40%] gap-4 px-[4%]">
-                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[36px] lg:leading-[45px] font-black font-inter">WHY LSW</h2>
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[36px] lg:leading-[45px] font-black font-inter text-2xl">WHY LSW</h2>
 
-                        <ul className="space-y-10 list-[square] lg:text-[32px] lg:leading-[38px] text-gray-400 font-medium">
+                        <ul className="space-y-5 md:space-y-10 list-[square] lg:text-[32px] lg:leading-[38px] text-gray-400 font-medium">
                             <li>
                                 Universally accepted across all
                                 live streaming platforms
