@@ -9,11 +9,19 @@ const Hero = () => {
     return (
         <section className="overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-10 bg-hero lg:py-[10%]">
-                <div className="absolute flex-col grow items-center min-h-[734px] max-md:max-w-full top-10 z-999">
+                <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[3.8%] -left-[8%] -z-1">
                     <Image
                         src={Chart}
                         alt="bg-image"
-                        classname="absolute inset-0 size-full"
+                        classname="w-full h-[500px]"
+                    />
+
+                </div>
+                <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[3.8%] -right-[8%] -z-1">
+                    <Image
+                        src={Chart}
+                        alt="bg-image"
+                        classname="w-full h-[500px]"
                     />
 
                 </div>

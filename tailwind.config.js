@@ -103,7 +103,7 @@ export default {
         1: "1",
       },
       backgroundImage: {
-        'hero': "linear-gradient(to right bottom, rgba(0, 15, 22, 0.9), rgba(33, 58, 74, 0.9)), url('../src/assets/charts.png')",
+        'hero': "linear-gradient(to right, rgba(0, 15, 22, 0.9), rgba(33, 58, 74, 0.9))",
       },
       opacity: {
         65: ".65",
