@@ -9,8 +9,8 @@ const Page = () => {
                 <Grid className="w-full h-full justify-between gap-4 order-last">
                     <div className="w-[60%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 justify-self-end self-end" />
                     <Grid>
-                        <h2 className="text-white text-6xl font-bold font-inter tracking-[0.8rem]">LIVE <h2 className="mt-[2%]">STREAMING WIRE</h2></h2>
-                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] text-[5.5rem] font-black font-inter">THE SOLUTION</h2>
+                        <h2 className="text-white lg:text-[64px] font-bold font-inter lg:leading-[80px]">LIVE <h2 className="mt-[1%]">STREAMING WIRE</h2></h2>
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter">THE SOLUTION</h2>
                     </Grid>
 
                     <Grid />

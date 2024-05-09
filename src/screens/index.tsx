@@ -1,8 +1,8 @@
 import Grid from "../components/Grid";
 import Header from "../components/Header";
 import Buy from "./Buy";
-import Converter from "./Converter";
 import Creators from "./Creators";
+import Footer from "./Footer";
 import Hero from "./Hero";
 import Live from "./Live";
 import Lsw from "./Lsw";
@@ -19,7 +19,6 @@ const Home = () => {
         <Grid className="w-full h-full">
             <Header />
             <Hero />
-            <Converter />
             <Testimonial />
             <Wire />
             <Page />
@@ -31,6 +30,7 @@ const Home = () => {
             <RoadMap />
             <Tokenomics />
             <Lsw />
+            <Footer />
         </Grid>
     )
 }

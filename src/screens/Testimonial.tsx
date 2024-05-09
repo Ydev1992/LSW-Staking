@@ -10,43 +10,46 @@ import Twitch from "../assets/tetimonial/twitch.png";
 const Testimonial = () => {
     return (
         <section className="overflow-hidden">
-            <div className="grid grid-cols-7 justify-between md:gap-4 gap-2 items-center lg:px-10 bg-gray-300 to-[#213A4A] p-4">
-                <Image
-                    src={Bigo}
-                    alt="bg-image"
-                    classname="object-contain"
-                />
-                <Image
-                    src={Caffine}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
-                <Image
-                    src={Nimo}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
-                <Image
-                    src={Spoon}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
-                <Image
-                    src={Tiktok}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
-                <Image
-                    src={Twitch}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
+            <div className="bg-gray-300 w-full">
+                <div className="grid grid-cols-7 justify-between md:gap-4 gap-2 items-center lg:px-10 p-4 animate-infinite-scroll">
+                    <Image
+                        src={Bigo}
+                        alt="bg-image"
+                        classname="object-contain"
+                    />
+                    <Image
+                        src={Caffine}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
+                    <Image
+                        src={Nimo}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
+                    <Image
+                        src={Spoon}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
+                    <Image
+                        src={Tiktok}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
+                    <Image
+                        src={Twitch}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
 
-                <Image
-                    src={Meta}
-                    alt="bg-image"
-                    classname="w-full h-full object-contain"
-                />
+                    <Image
+                        src={Meta}
+                        alt="bg-image"
+                        classname="w-full h-full object-contain"
+                    />
+                </div>
+
             </div>
         </section >
     )

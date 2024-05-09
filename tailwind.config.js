@@ -102,12 +102,15 @@ export default {
         999: "999",
         1: "1",
       },
+      backgroundImage: {
+        'hero': "linear-gradient(to right bottom, rgba(0, 15, 22, 0.9), rgba(33, 58, 74, 0.9)), url('../src/assets/charts.png')",
+      },
       opacity: {
         65: ".65",
       },
       transitionProperty: { width: "width" },
       boxShadow: {
-        "solid-l": "0px 10px 120px 0px rgba(45, 74, 170, 0.1)",
+        "solid-1": "-6px 4px 4px rgba(0, 0, 0, 0.25)",
         "solid-2": "0px 2px 10px rgba(122, 135, 167, 0.05)",
         "solid-3": "0px 6px 90px rgba(8, 14, 40, 0.04)",
         "solid-4": "0px 6px 90px rgba(8, 14, 40, 0.1)",
@@ -128,9 +131,13 @@ export default {
         },
       },
       animation: {
-        line1: "line 3s linear infinite",
-        line2: "line 6s linear infinite",
-        line3: "line 9s linear infinite",
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        }
       },
     },
   },

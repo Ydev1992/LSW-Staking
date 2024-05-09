@@ -8,9 +8,9 @@ const Creators = () => {
             <div className="grid md:grid-cols-2 grid-cols-1 justify-between py-[2%] gap-10">
                 <Grid className="w-full h-full justify-between gap-4 order-first">
                     <Grid />
-                    <Grid className="lg:px-30 p-6">
-                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-5xl font-black font-inter">EMPOWERING CREATORS</h2>
-                        <h2 className="lg:text-3xl text-white font-normal">LSW lets viewers directly support creators they enjoy
+                    <Grid className="lg:px-30 p-6 gap-4">
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[48px] lg:leading-[60px] font-black font-inter">EMPOWERING CREATORS</h2>
+                        <h2 className="lg:text-[36px] lg:leading-[42px] text-white font-normal">LSW lets viewers directly support creators they enjoy
                             across different platforms, with lower fees compared
                             to traditional tipping methods. Creators can also use
                             LSW to offer exclusive content and generate a direct revenue stream.</h2>

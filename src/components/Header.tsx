@@ -4,9 +4,6 @@ import Image from "./Image";
 import Discord from "../assets/icons/discord.svg";
 import Twitter from "../assets/icons/twitter.svg";
 import Telegram from "../assets/icons/telegram.svg";
-import Block from "./Block";
-import Flag from "../assets/icons/uk.svg";
-
 
 type Menu = {
   id: number;
@@ -45,6 +42,7 @@ const Header = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
 
   //const pathUrl = "/"
+  console.log(stickyMenu)
 
   // Sticky menu
   const handleStickyMenu = () => {
@@ -61,12 +59,9 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-99999 w-full py-7 ${stickyMenu
-        ? "bg-white !py-4 shadow transition duration-100 dark:bg-black"
-        : ""
-        }`}
+      className={`fixed left-0 top-0 z-99999 w-full py-4 bg-primary shadow-lg transition duration-100 rounded-sm`}
     >
-      <div className="relative mx-auto max-w-c-1390 items-center justify-between px-4 md:px-8 xl:flex 2xl:px-0">
+      <div className="relative mx-auto max-w-full items-center justify-between px-4 md:px-8 xl:flex 2xl:px-20">
         <div className="flex w-full items-center justify-between">
           <Logo />
 
@@ -108,7 +103,7 @@ const Header = () => {
         </div>
 
         <div
-          className={`invisible h-0 w-full items-center gap-8 xl:visible xl:flex xl:h-auto xl:w-full ${navigationOpen &&
+          className={`invisible h-0 w-full items-center gap-8 xl:visible xl:flex xl:h-auto xl:w-full content-end ${navigationOpen &&
             "navbar !visible mt-4 md:mt-0 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
             }`}
         >
@@ -162,10 +157,6 @@ const Header = () => {
             <Image src={Telegram} classname="!w-[34px] !h-[34px]"/>
             <Image src={Discord} classname="!w-[34px] !h-[34px]"/>
             <button className="bg-[#5865F2] rounded-md shadow-md px-4 py-1 text-xs text-white">Buy Now</button>
-            <Block>
-              <Image src={Flag} />
-              <h2 className="text-xs text-white">En</h2>
-            </Block>
           </div>
         </div>
 

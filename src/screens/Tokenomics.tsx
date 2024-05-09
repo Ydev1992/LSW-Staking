@@ -4,18 +4,23 @@ import Token from "../assets/tokenomics.png";
 
 const Tokenomics = () => {
     return (
-        <section className="overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-20 p-6 py-[5%]">
-                <Grid className="w-full max-h-[65vh]">
+        <section className="overflow-hidden mt-[5%]">
+            <Grid className="w-full">
+                <div className="w-[30%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 self-end" />
+            </Grid>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-30 p-6 py-[5%]">
+                <Grid className="w-full h-full">
                     <Image
                         src={Token}
                         alt="bg-image"
-                        classname="w-full h-full"
+                        classname="w-full h-full lg:w-[659px] lg:h-[866px]"
                     />
                 </Grid>
-                <Grid className="w-full h-full justify-center gap-6">
-                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-4xl font-bold">Tokenomics</h2>
-                    <Grid className="gap-6 text-white text-sm font-normal">
+                <Grid className="w-full h-full justify-between gap-6">
+
+                    <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black">Tokenomics</h2>
+                    <Grid className="gap-8 text-white lg:text-[32px] lg:leading-[38px] font-normal">
                         <h2>LSW (Live Streaming Wire) understands the importance of a thriving ecosystem. Our token allocation reflects this, with resources strategically distributed to empower creators, fuel platform growth, and reward our incredible community.</h2>
                         <h2>42.5 Of LSW Supply will be used to Develop the business solution and fund the Operations of Live streaming Wire.</h2>
                         <h2>35% of LSW Tokens will be used for Platform growth and marketing will be fueled by strategic campaigns, ongoing platform development, and key partnerships. A Significant portion will be is dedicated to creators, including direct support pools, exclusive content creation grants, and community engagement programs.</h2>
@@ -25,6 +30,9 @@ const Tokenomics = () => {
                     </Grid>
                 </Grid>
             </div>
+            <Grid className="w-full">
+                <div className="w-[30%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 self-start" />
+            </Grid>
         </section >
     )
 }
