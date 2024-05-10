@@ -9,7 +9,7 @@ import Block from "../components/Block";
 const Buy = () => {
     return (
         <section className="overflow-hidden mt-[4%]">
-            <Grid className="py-[2%] gap-10 transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
+            <Grid className="py-[2%] gap-10 transition-opacity" data-aos="flip-left">
                 <Block className="w-full h-full gap-4 justify-between">
                     <Block className="gap-4 px-6 md:px-10">
                         <div className="md:w-[105px] md:h-[222px] h-[50px] w-[50px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2]" />

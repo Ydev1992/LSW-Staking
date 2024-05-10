@@ -7,7 +7,7 @@ import Block from "../components/Block";
 const Lsw = () => {
     return (
         <section className="overflow-hidden rounded-e-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-20 p-4 py-[5%] transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-20 p-4 py-[5%] transition-opacity" data-aos="flip-up">
 
                 <Grid className="w-full h-full justify-center gap-4 md:px-[4%]">
                     <Block className="gap-4 justify-between w-full !items-start">

@@ -4,7 +4,7 @@ import Block from "../components/Block";
 const Works = () => {
     return (
         <section className="overflow-hidden" >
-            <div data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out" className="grid grid-cols-1 justify-between lg:px-20 p-6 py-[5%] gap-10 transition-opacity">
+            <div data-aos='fade-down-left' className="grid grid-cols-1 justify-between lg:px-20 p-6 py-[5%] gap-10 transition-opacity">
                 <Block className="gap-4 md:gap-8">
                     <div className="md:w-[105px] md:h-[222px] h-[50px] w-[80px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2] self-start" />
                     <Grid className="gap-6">

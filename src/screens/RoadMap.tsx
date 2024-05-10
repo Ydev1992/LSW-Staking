@@ -9,7 +9,7 @@ const RoadMap = () => {
             <Grid className="w-full">
                 <div className="w-[30%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 self-start" />
             </Grid>
-            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%] transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
+            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%] transition-opacity" data-aos='flip-down'>
 
                 <Grid className="md:w-[50%] h-full justify-center gap-4 items-center">
                     <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter text-3xl">ROAD MAP</h2>

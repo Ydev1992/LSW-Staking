@@ -9,7 +9,7 @@ const Tokenomics = () => {
                 <div className="w-[30%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 self-end" />
             </Grid>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-30 p-6 py-[5%] transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-30 p-6 py-[5%] transition-opacity" data-aos="zoom-out-left">
                 <Grid className="w-full h-full">
                     <Image
                         src={Token}

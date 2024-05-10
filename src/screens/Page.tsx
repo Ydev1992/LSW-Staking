@@ -5,7 +5,7 @@ import LiveStream from "../assets/liveStream.png";
 const Page = () => {
     return (
         <section className="overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2 justify-between py-[2%] gap-10 transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-between py-[2%] gap-10 transition-opacity"  data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                 <Grid className="w-full h-full justify-between gap-4 order-first md:order-last">
                     <div className="w-[60%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 justify-self-end self-end" />
                     <Grid className="p-6 md:p-0 gap-4">

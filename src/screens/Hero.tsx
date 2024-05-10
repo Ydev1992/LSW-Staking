@@ -25,7 +25,7 @@ const Hero = () => {
                     />
 
                 </div>
-                <Grid className="w-full h-full justify-center gap-4 mt-[10%]">
+                <Grid className="w-full h-full justify-center gap-4 mt-[10%]" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
                     <h2 className="bg-clip-text text-transparent bg-gradient-to-r from-[#00C2B6] to-[#5865F2] lg:text-[48px] lg:leading-[60px] font-extrabold font-inter text-xl">LIVE STREAMING POWER</h2>
                     <h3 className="font-bold text-white lg:text-[48px] lg:leading-[60px] font-inter text-lg">Power your Stream</h3>
                     <Grid className="mt-2 md:mt-10 gap-4 md:gap-8">
@@ -42,7 +42,7 @@ const Hero = () => {
                     </Block>
 
                 </Grid>
-                <Grid className="w-full h-full justify-center items-center">
+                <Grid className="w-full h-full justify-center items-center" data-aos="fade-down" data-aos-easing="ease-in-out">
                     <Grid className="bg-primary shadow-md rounded-md gap-6 w-full md:w-[70%] py-8">
                         <Grid className="items-center gap-4 px-4">
                             <h2 className="lg:text-[48px] font-inter font-bold text-white">BUY LSW TOKEN</h2>
