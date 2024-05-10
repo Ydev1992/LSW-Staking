@@ -1,10 +1,11 @@
 import Grid from "../components/Grid"
 import Block from "../components/Block";
 
+
 const Wire = () => {
     return (
         <section className="overflow-hidden">
-            <Grid className="lg:px-20 p-6 py-[4%] gap-10 z-9999">
+            <Grid className="lg:px-20 p-6 py-[4%] gap-10 z-9999" data-aos='fade-right'>
                 <Block className="w-full md:gap-15 gap-2 !items-start">
                     <div className="md:w-[105px] md:h-[222px] h-[60px] w-[80px] bg-gradient-to-t shadow-md opacity-70 to-[#00C2B6] from-[#5865F2]" />
                     <Grid>
@@ -16,7 +17,6 @@ const Wire = () => {
                     </Grid>
 
                 </Block>
-
             </Grid>
         </section >
     )

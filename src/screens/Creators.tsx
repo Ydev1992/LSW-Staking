@@ -5,7 +5,7 @@ import CreatorImg from "../assets/creators.png";
 const Creators = () => {
     return (
         <section className="overflow-hidden">
-            <div className="grid md:grid-cols-2 grid-cols-1 justify-between py-[2%] gap-10">
+            <div className="grid md:grid-cols-2 grid-cols-1 justify-between py-[2%] gap-10" data-aos='fade-right'>
                 <Grid className="w-full h-full justify-between gap-4 order-last md:order-first">
                     <Grid />
                     <Grid className="lg:px-30 p-6 gap-4">
@@ -26,6 +26,7 @@ const Creators = () => {
                     />
                 </Grid>
             </div>
+
         </section >
     )
 }

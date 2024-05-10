@@ -7,7 +7,7 @@ import Block from "../components/Block";
 const Lsw = () => {
     return (
         <section className="overflow-hidden rounded-e-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-20 p-4 py-[5%] ">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-15 justify-between lg:px-20 p-4 py-[5%]" data-aos='fade-right'>
 
                 <Grid className="w-full h-full justify-center gap-4 md:px-[4%]">
                     <Block className="gap-4 justify-between w-full !items-start">
@@ -16,7 +16,7 @@ const Lsw = () => {
                         </Grid>
 
                         <Grid className="gap-4">
-                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black text-3xl">WHAT IS LSW</h2>
+                            <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[64px] font-inter font-black text-3xl lg:leading-[80px]">WHAT IS LSW</h2>
                             <p className="text-gray-400 lg:text-[32px] lg:leading-[38px] font-normal text-lg">LSW is a cryptocurrency designed to revolutionize the live streaming experience. It empowers viewers to directly support creators across different platforms with lower fees, while offering creators new monetization opportunities and fostering a more connected community.</p>
                         </Grid>
                     </Block>

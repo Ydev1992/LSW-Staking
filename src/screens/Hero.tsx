@@ -7,8 +7,8 @@ import Usdt from "../assets/usdt.png";
 
 const Hero = () => {
     return (
-        <section className="overflow-hidden mt-[8%] md:mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-10 bg-hero lg:py-[10%] p-4 gap-20 md:gap-0 overflow-hidden max-w-full relative">
+        <section className="overflow-hidden mt-[8%] md:mt-0" >
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-10 bg-hero lg:py-[10%] p-4 gap-20 md:gap-0 overflow-hidden max-w-full relative" data-aos='fade-right'>
                 <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[60%] -left-[8%] -z-1">
                     <Image
                         src={Chart}
