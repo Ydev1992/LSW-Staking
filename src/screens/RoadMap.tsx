@@ -9,7 +9,7 @@ const RoadMap = () => {
             <Grid className="w-full">
                 <div className="w-[30%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 self-start" />
             </Grid>
-            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%]" data-aos='fade-right'>
+            <Grid className="gap-4 justify-center items-center lg:px-20 p-6 py-[5%] transition-opacity" data-aos='fade-right' data-aos-delay="500" data-aos-easing="ease-in-out">
 
                 <Grid className="md:w-[50%] h-full justify-center gap-4 items-center">
                     <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter text-3xl">ROAD MAP</h2>
@@ -18,7 +18,7 @@ const RoadMap = () => {
                 <Grid className="absolute -z-40">
                     <Image src={Vector} />
                 </Grid>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-center md:gap-40 gap-10 z-10 mt-[4%]">
 
                     <Grid className="gap-3 items-center md:items-start shadow-solid-1 bg-[#000F16] rounded-md px-8 py-10 max-w-[470px] lg:min-h-[601px] z-10">
