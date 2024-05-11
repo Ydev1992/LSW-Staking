@@ -2,9 +2,6 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    fontFamily: {
-      inter: ["Inter", "sans-serif"],
-    },
     extend: {
       colors: {
         current: "currentColor",
@@ -20,7 +17,7 @@ export default {
         black: "#181C31",
         blackho: "#2C3149",
         blacksection: "#1C2136",
-        primary: "#10E0D0",
+        primary: "#000F16",
         primaryho: "#61f2e7",
         meta: "#20C5A8",
         waterloo: "#757693",
@@ -30,7 +27,8 @@ export default {
         socialicon: "#D1D8E0",
       },
       fontFamily: {
-        inter: ['var(--font-inter)', 'sans-serif'],
+        inter: ['Orbitron', 'sans-serif'],
+        roboto:["Roboto Flex", "sans-serif"]
       },
       fontSize: {
         metatitle: ["12px", "20px"],
@@ -105,12 +103,15 @@ export default {
         999: "999",
         1: "1",
       },
+      backgroundImage: {
+        'hero': "linear-gradient(to right, rgba(0, 15, 22, 0.9), rgba(33, 58, 74, 0.9))",
+      },
       opacity: {
         65: ".65",
       },
       transitionProperty: { width: "width" },
       boxShadow: {
-        "solid-l": "0px 10px 120px 0px rgba(45, 74, 170, 0.1)",
+        "solid-1": "-6px 4px 4px rgba(0, 0, 0, 0.25)",
         "solid-2": "0px 2px 10px rgba(122, 135, 167, 0.05)",
         "solid-3": "0px 6px 90px rgba(8, 14, 40, 0.04)",
         "solid-4": "0px 6px 90px rgba(8, 14, 40, 0.1)",
@@ -131,9 +132,13 @@ export default {
         },
       },
       animation: {
-        line1: "line 3s linear infinite",
-        line2: "line 6s linear infinite",
-        line3: "line 9s linear infinite",
+        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+      },
+      keyframes: {
+        'infinite-scroll': {
+          from: { transform: 'translateX(0)' },
+          to: { transform: 'translateX(-100%)' },
+        }
       },
     },
   },

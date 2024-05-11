@@ -4,10 +4,17 @@
 
 /* third-party libraries CSS */
 
+h1,h2,h3,h4,h5,img,li{
+  user-select: none;
+}
+
+h1,h2,h3,h4,h5{
+  font-family: "Roboto Flex", sans-serif;
+}
 
 @layer base {
   body {
-    @apply relative z-1 font-inter text-regular font-normal text-waterloo dark:text-manatee;
+    @apply relative text-waterloo dark:text-manatee bg-primary;
   }
 }
 
@@ -43,13 +50,19 @@
   }
 }
 
-pre {
-  @apply relative mb-2 rounded-lg bg-strokedark px-4 py-2;
-}
-.prism-copy-button {
-  @apply absolute right-2 top-2 h-[26px] rounded bg-white px-4 text-primary;
+
+ul {
+  list-style-image: linear-gradient(to bottom, #00C2B6, #5865F2);
 }
 
-.active-tab {
-  @apply bg-stroke text-black dark:bg-blackho dark:text-white;
+nav ul{
+  list-style: none;
+}
+
+li{
+  padding-inline-start: 1rem;
+}
+
+nav li{
+  padding-inline-start: 0rem;
 }

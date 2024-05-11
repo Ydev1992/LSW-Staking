@@ -1,15 +1,14 @@
 import Image from "./Image";
-import LogoIcon from "../assets/react.svg"
 
 const Logo = () => {
     return (
         <a href="/">
             <Image
-                src={LogoIcon}
+                src="./images/LSW.png"
                 alt="logo"
-                width={50}
-                height={30}
-                className="hidden w-full dark:block"
+                width={187}
+                height={50}
+                className="w-full h-full md:w-[187px] md:h-[50px]"
             />
         </a>
     )

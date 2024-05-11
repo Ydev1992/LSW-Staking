@@ -9,7 +9,7 @@ type ImageProps = {
 const Image = (props: ImageProps) => {
     const { classname } = props;
     return (
-        <ImageComp {...props} className={`object-contain m-1 ${classname}`} decoding="async" />
+        <ImageComp {...props} className={`object-contain ${classname}`} decoding="async" />
     )
 }
 
