@@ -66,3 +66,7 @@ li{
 nav li{
   padding-inline-start: 0rem;
 }
+
+.hard{
+  mix-blend-mode:darken;
+}
