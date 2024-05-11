@@ -8,6 +8,10 @@ h1,h2,h3,h4,h5,img,li{
   user-select: none;
 }
 
+h1,h2,h3,h4,h5{
+  font-family: "Roboto Flex", sans-serif;
+}
+
 @layer base {
   body {
     @apply relative text-waterloo dark:text-manatee bg-primary;
@@ -53,4 +57,12 @@ ul {
 
 nav ul{
   list-style: none;
+}
+
+li{
+  padding-inline-start: 1rem;
+}
+
+nav li{
+  padding-inline-start: 0rem;
 }

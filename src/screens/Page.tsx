@@ -9,7 +9,7 @@ const Page = () => {
                 <Grid className="w-full h-full justify-between gap-4 order-first md:order-last">
                     <div className="w-[60%] bg-gradient-to-r to-[#00C2B6] from-[#5865F2] h-2 justify-self-end self-end" />
                     <Grid className="p-6 md:p-0 gap-4">
-                        <h2 className="text-white lg:text-[64px] font-bold font-inter lg:leading-[80px] text-3xl">LIVE <h2 className="mt-[1%]">STREAMING WIRE</h2></h2>
+                        <h2 className="text-white lg:text-[64px] font-bold font-inter lg:leading-[80px] text-3xl">LIVE <h2 className="mt-[1%] font-inter">STREAMING WIRE</h2></h2>
                         <h2 className="bg-clip-text text-transparent bg-gradient-to-r to-[#00C2B6] from-[#5865F2] lg:text-[96px] lg:leading-[120px] font-black font-inter text-2xl">THE SOLUTION</h2>
                     </Grid>
 

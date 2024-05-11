@@ -28,6 +28,7 @@ export default {
       },
       fontFamily: {
         inter: ['Orbitron', 'sans-serif'],
+        roboto:["Roboto Flex", "sans-serif"]
       },
       fontSize: {
         metatitle: ["12px", "20px"],
