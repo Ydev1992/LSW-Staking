@@ -1,0 +1,51 @@
+{
+    "abi": [
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "calcPrice",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [],
+        "name": "buyTokens",
+        "outputs": [],
+        "payable": true,
+        "stateMutability": "payable",
+        "type": "function"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "sellTokens",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+      }
+    ],
+    "networks": {
+      "1": {
+        "address": "0x1234567890123456789012345678901234567890"    },
+      "3": {
+        "address": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcdef"   }
+    },
+    "contractName": "MyToken"
+  }
+  
