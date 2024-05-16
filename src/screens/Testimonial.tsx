@@ -1,4 +1,3 @@
-import Image from "../components/Image";
 import Bigo from "../assets/tetimonial/bigo.png";
 import Caffine from "../assets/tetimonial/caffiene.png";
 import Meta from "../assets/tetimonial/meta.png";
