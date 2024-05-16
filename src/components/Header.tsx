@@ -40,7 +40,6 @@ const Header = () => {
   const [stickyMenu, setStickyMenu] = useState(false);
 
   //const pathUrl = "/"
-  console.log(stickyMenu);
 
   // Sticky menu
   const handleStickyMenu = () => {
@@ -156,9 +155,9 @@ const Header = () => {
           </nav>
 
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
-            <Image src={Twitter} classname="!w-[34px] !h-[34px]" />
-            <Image src={Telegram} classname="!w-[34px] !h-[34px]" />
-            <Image src={Discord} classname="!w-[34px] !h-[34px]" />
+            <Image src={Twitter} className="!w-[34px] !h-[34px]" />
+            <Image src={Telegram} className="!w-[34px] !h-[34px]" />
+            <Image src={Discord} className="!w-[34px] !h-[34px]" />
             <button className="bg-[#5865F2] rounded-md shadow-md px-4 py-1 text-xs text-white">
               Buy Now
             </button>

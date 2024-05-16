@@ -1,25 +1,26 @@
-import styled from 'styled-components';
-import Block from './Block';
+import styled from "styled-components";
+import Block from "./Block";
 
-interface InputProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  left?: React.ReactNode,
-  right?: React.ReactNode,
-  classname?:string
+interface InputProps
+  extends React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  > {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+  className?: string;
 }
 
 const InputComponent = (props: InputProps) => {
-  const { left, right,classname } = props;
+  const { left, right, className } = props;
   return (
-    <Block className={`bg-white rounded-md shadow-md px-2 py-2 ${classname}`}>
+    <Block className={`bg-white rounded-md shadow-md px-2 py-2 ${className}`}>
       {left}
-      <Input {...props}/>
+      <Input {...props} />
       {right}
     </Block>
-
-  )
-
-}
-
+  );
+};
 
 const Input = styled.input`
   border: 1px solid rgb(var(--inputBackground));
@@ -32,4 +33,4 @@ const Input = styled.input`
   }
 `;
 
-export default InputComponent
+export default InputComponent;

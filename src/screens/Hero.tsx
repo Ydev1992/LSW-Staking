@@ -1,115 +1,140 @@
 import React, { useState, useEffect } from "react";
 import Web3 from "web3";
-import MyTokenContract from "../MyToken.json";
-
-const TOKEN_PRICE = 0.1;
+import MyTokenContractABI from "../MyToken.json";
 
 import Image from "../components/Image";
 import Grid from "../components/Grid";
 import Block from "../components/Block";
 import Eth from "../assets/eth.png";
 import Chart from "../assets/charts.png";
-import Usdt from "../assets/usdt.png";
 import BgWeb from "../assets/bg-web.png";
 
+import { toast } from "react-toastify";
+import Notification from "../components/Notification";
+
+const contractAddress = "0xb91fFF5ec726f719dbD68d2EDf588958dfbA81De";
+const abi = MyTokenContractABI;
+
 const Hero = () => {
-  const [web3, setWeb3] = useState<any>();
-  const [contract, setContract] = useState<any>();
+  const [web3, setWeb3] = useState<any>(null);
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
-  const [buyAmount, setBuyAmount] = useState<number>(0);
-  const [sellAmount, setSellAmount] = useState<string>("");
-  const [ethRequired, setEthRequired] = useState<number>(0);
+  const [buyAmount, setBuyAmount] = useState<string>("");
+  const [gasFee, setGasFee] = useState<string>("3000");
+  // const [sellAmount, setSellAmount] = useState<string>("");
+  // const [ethRequired, setEthRequired] = useState<number>(0);
   const [tokensReceived, setTokenReceived] = useState<number>(0);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (buyAmount) {
-      const ethAmount = buyAmount * TOKEN_PRICE;
-      setEthRequired(ethAmount);
-    } else {
-      setEthRequired(0);
-    }
-  }, [buyAmount, isConnected, account]);
+  const calcBalance = async () => {
+    const tempContract = new web3.eth.Contract(abi, contractAddress);
+    const tempBalance = await tempContract.methods.balance().call();
+    setBalance(parseFloat(tempBalance));
+  };
 
-  const handleBuy = async () => {
+  const calcReceiveAmount = async () => {
+    if (parseFloat(buyAmount) < 0) return;
     try {
-      const amountInWei = web3.utils.toWei(buyAmount, "ether");
-      await contract.methods
-        .buyTokens()
-        .send({ from: account, value: amountInWei });
-      setBuyAmount(0);
-      alert("Tokens bought successfully!");
+      if (!web3) return;
+
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      const tokenPrice = await contract.methods
+        .calcPrice(web3.utils.toWei(buyAmount.toString(), "ether"))
+        .call();
+      setTokenReceived(parseFloat(web3.utils.fromWei(tokenPrice, "ether")));
     } catch (error) {
-      console.error("Error while buying tokens:", error);
+      console.error("Error calculating token price:", error);
     }
   };
 
-  //   const handleSell = async () => {
-  //     try {
-  //       const amountInWei = web3.utils.toWei(sellAmount, "ether");
-  //       await contract.methods.sellTokens(amountInWei).send({ from: account });
-  //       setSellAmount("");
-  //       alert("Tokens sold successfully!");
-  //     } catch (error) {
-  //       console.error("Error while selling tokens:", error);
-  //     }
-  //   };
+  const handleRebalance = async () => {
+    try {
+      if (!web3) return;
+
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods.buyTokens().call();
+    } catch (error) {
+      console.error("Error calculating token price:", error);
+    }
+  };
+
+  const handleBuy = async () => {
+    const amount = parseFloat(buyAmount);
+    const fee = parseFloat(gasFee);
+    try {
+      if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
+        // toast(<Notification type={"success"} msg={""} />);
+        toast(<Notification type={"fail"} msg={"errorMsg"} />);
+        return;
+      }
+
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      const status = await contract.methods
+        .buyTokens()
+        .send({ from: account, gas: fee, value: amount * 10 ** 18 })
+        .then((receipt: any) => {})
+        .catch((error: any) => {});
+    } catch (error) {}
+  };
 
   const handleSendChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputAmount = parseInt(e.target.value);
-    setBuyAmount(inputAmount);
-
-    if (contract) {
-      try {
-        // const tokenPrice = await contract.methods.calcPrice().call();
-        // const tokensReceived = inputAmount / parseInt(tokenPrice);
-        const tokensReceived = 333;
-        setTokenReceived(tokensReceived);
-      } catch (error) {
-        console.error("Error fetching token price:", error);
-      }
-    }
+    setBuyAmount(e.target.value);
   };
 
   const connectWallet = async () => {
-    if (window.ethereum) {
-      const web3 = new Web3(window.ethereum);
-      setWeb3(web3);
-      try {
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        const accounts = await web3.eth.getAccounts();
-
-        setAccount(accounts[0].toString());
-        const ethBalance = await web3.eth.getBalance(accounts[0]);
-        setBalance(parseFloat(web3.utils.fromWei(ethBalance, "ether")));
-        setIsConnected(true);
-        const networkId = await web3.eth.net.getId();
-        const deployedNetwork = MyTokenContract.networks[1 || networkId];
-        const contractInstance = new web3.eth.Contract(
-          MyTokenContract.abi,
-          deployedNetwork && deployedNetwork.address
-        );
-        setContract(contractInstance);
-      } catch (error) {
-        console.error("Error while fetching accounts:", error);
+    try {
+      // Check if MetaMask is installed
+      if (!(window as any).ethereum) {
+        console.error("MetaMask not found");
+        return;
       }
-    } else {
-      console.log("Metamask not detected.");
+
+      // Request account access
+      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
+      console.log("Connected to MetaMask!");
+
+      // Create Web3 instance
+      const web3Instance = new Web3((window as any).ethereum);
+
+      // Get Ethereum selected account
+      const accounts = await web3Instance.eth.getAccounts();
+      console.log("Selected account:", accounts[0]);
+      setAccount(accounts[0]);
+      // Subscribe to account changes
+      (window as any).ethereum.on(
+        "accountsChanged",
+        function (accounts: string[]) {
+          console.log("Account changed:", accounts[0]);
+        }
+      );
+
+      // Subscribe to network changes
+      (window as any).ethereum.on("chainChanged", function (networkId: string) {
+        console.log("Network changed:", networkId);
+      });
+
+      setIsConnected(true);
+      setWeb3(web3Instance);
+    } catch (error) {
+      console.error("Error connecting to MetaMask:", error);
     }
   };
+
+  useEffect(() => {
+    isConnected && calcBalance(), calcReceiveAmount();
+  }, [isConnected, buyAmount]);
 
   return (
     <section className="overflow-hidden mt-[8%] md:mt-0">
       <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-20 bg-hero lg:py-[10%] p-4 gap-20 md:gap-0 overflow-hidden max-w-full relative">
         <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[60%] -left-[8%] -z-1">
-          <Image src={Chart} alt="bg-image" classname="w-full h-[500px]" />
+          <Image src={Chart} alt="bg-image" className="w-full h-[500px]" />
         </div>
         <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[60%] -right-[8%] -z-1">
-          <Image src={Chart} alt="bg-image" classname="w-full h-[500px]" />
+          <Image src={Chart} alt="bg-image" className="w-full h-[500px]" />
         </div>
-        <div className="-z-20 absolute flex-col grow items-center h-[80%] overflow-hidden w-[50%] -top-[8%] -right-[1%] mix-blend-color-burn z-999">
-          <Image src={BgWeb} alt="bg-image" classname="w-full h-full" />
+        <div className="-z-20 absolute flex-col grow items-center h-[80%] overflow-hidden w-[50%] -top-[8%] -right-[1%] mix-blend-color-burn">
+          <Image src={BgWeb} alt="bg-image" className="w-full h-full" />
         </div>
         <Grid
           className="w-full h-full justify-center gap-4 mt-[10%] md:mt-0"
@@ -169,44 +194,43 @@ const Hero = () => {
             </Block>
 
             <Grid className="items-center gap-4">
-              <Block className="bg-[#001C29] w-[80%] md:w-[60%] justify-between px-[8%] p-2 rounded-md">
+              <Block className="bg-[#001C29] w-[80%] md:w-[60%] justify-center px-[8%] p-2 rounded-md">
                 <Block className="items-center">
                   <Image
                     src={Eth}
                     alt="bg-image"
-                    classname="w-[45px] h-[45px]"
+                    className="w-[45px] h-[45px]"
                   />
                   <h2 className="font-semibold lg:text-[20px]">ETH</h2>
                 </Block>
-                <Block className="items-center gap-2">
-                  <Image
-                    src={Usdt}
-                    alt="bg-image"
-                    classname="w-[40px] h-[40px]"
-                  />
-                  <h2 className="font-semibold lg:text-[20px]">USDT</h2>
-                </Block>
               </Block>
               <h2 className="lg:text-[15px] text-gray-400 font-bold">
-                BALANCE <span className="text-white">{balance}</span> {"\u2022"}{" "}
-                GASFEE <span className="text-white">0.000LSW - 0$</span>
+                BALANCE : <span className="text-white">{balance}</span>{" "}
+                <span className="mr-2 ml-2">{"\u2022"}</span> GASFEE{" "}
+                <input
+                  type="text"
+                  placeholder=""
+                  value={gasFee}
+                  onChange={(e) => setGasFee(e.target.value)}
+                  className="w-[50px] rounded-md bg-transparent outline-none text-right text-white"
+                />
               </h2>
             </Grid>
 
             <Block className="items-center px-[10%] gap-6">
-              <Grid className="bg-[#001C29] w-full rounded-md gap-4 p-4">
+              <Grid className="bg-[#001C29] relative w-full rounded-md gap-4 p-4">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Amount"
                   value={buyAmount}
                   onChange={(e) => handleSendChange(e)}
-                  className="w-[100%]"
+                  className="text-white w-[100%] rounded bg-transparent outline-none"
                 />
                 <h2 className="lg:text-[16px] font-semibold">
                   YOU SEND{" "}
                   <button
-                    className="ml-2 bg-[#123122] rounded-md"
-                    onClick={() => setBuyAmount(balance)}
+                    className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
+                    onClick={() => setBuyAmount(balance.toString())}
                   >
                     max
                   </button>
@@ -230,7 +254,12 @@ const Hero = () => {
                   CONNECT WALLET
                 </button>
               ) : (
-                <h1>{account}</h1>
+                <button
+                  onClick={handleBuy}
+                  className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
+                >
+                  Buy Now
+                </button>
               )}
             </Grid>
           </Grid>
