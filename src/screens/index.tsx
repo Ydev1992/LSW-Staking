@@ -15,24 +15,24 @@ import Wire from "./Wire";
 import Works from "./Works";
 
 const Home = () => {
-    return (
-        <Grid className="w-full h-full">
-            <Header />
-            <Hero />
-            <Testimonial />
-            <Wire />
-            <Page />
-            <Payment />
-            <Live />
-            <Creators />
-            <Works />
-            <Buy />
-            <RoadMap />
-            <Tokenomics />
-            <Lsw />
-            <Footer />
-        </Grid>
-    )
-}
+  return (
+    <Grid className="w-full h-full">
+      <Header />
+      <Hero />
+      <Testimonial />
+      <Wire />
+      <Page />
+      <Payment />
+      <Live />
+      <Creators />
+      <Works />
+      <Buy />
+      <RoadMap />
+      <Tokenomics />
+      <Lsw />
+      <Footer />
+    </Grid>
+  );
+};
 
 export default Home;
