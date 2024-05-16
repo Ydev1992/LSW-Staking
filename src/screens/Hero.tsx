@@ -22,7 +22,7 @@ const Hero = () => {
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("3000");
+  const [gasFee, setGasFee] = useState<string>("21000");
   // const [sellAmount, setSellAmount] = useState<string>("");
   // const [ethRequired, setEthRequired] = useState<number>(0);
   const [tokensReceived, setTokenReceived] = useState<number>(0);
@@ -70,6 +70,15 @@ const Hero = () => {
         return;
       }
 
+      if (amount * 10 ** 18 + fee > balance) {
+        toast(
+          <Notification
+            type={"warn"}
+            msg={"Not enough balance to buy token."}
+          />
+        );
+        return;
+      }
       const contract = new web3.eth.Contract(abi, contractAddress);
       const status = await contract.methods
         .buyTokens()
@@ -239,7 +248,9 @@ const Hero = () => {
                   YOU SEND{" "}
                   <button
                     className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
-                    onClick={() => setBuyAmount(balance.toString())}
+                    onClick={() =>
+                      setBuyAmount((balance - parseFloat(gasFee)).toString())
+                    }
                   >
                     max
                   </button>

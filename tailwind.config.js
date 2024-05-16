@@ -132,11 +132,11 @@ export default {
         },
       },
       animation: {
-        'infinite-scroll': 'infinite-scroll 25s linear infinite',
+        'infinite-scroll': 'infinite-scroll 15s linear infinite forwards',
       },
       keyframes: {
         'infinite-scroll': {
-          from: { transform: 'translateX(0)' },
+          from: { transform: 'translateX(0%)' },
           to: { transform: 'translateX(-100%)' },
         }
       },
