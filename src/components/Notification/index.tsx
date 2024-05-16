@@ -4,13 +4,10 @@ import {
   CrossCircleSVG,
   WhiteLoadingSVG,
 } from "../../assets/svgs";
-import { toast } from "react-toastify";
-import { getEllipsis } from "../../utils/functions";
 
 const Notification = ({
   type,
   msg,
-  txhash,
 }: {
   type: string;
   msg: string;

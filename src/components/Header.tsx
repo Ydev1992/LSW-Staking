@@ -52,6 +52,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
+    if (stickyMenu) setStickyMenu(true);
   });
 
   return (

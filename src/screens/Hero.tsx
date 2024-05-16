@@ -47,14 +47,14 @@ const Hero = () => {
     } catch (error) {}
   };
 
-  const handleRebalance = async () => {
-    try {
-      if (!web3) return;
+  // const handleRebalance = async () => {
+  //   try {
+  //     if (!web3) return;
 
-      const contract = new web3.eth.Contract(abi, contractAddress);
-      await contract.methods.buyTokens().call();
-    } catch (error) {}
-  };
+  //     const contract = new web3.eth.Contract(abi, contractAddress);
+  //     await contract.methods.buyTokens().call();
+  //   } catch (error) {}
+  // };
 
   const handleBuy = async () => {
     const amount = parseFloat(buyAmount);
@@ -80,15 +80,15 @@ const Hero = () => {
         return;
       }
       const contract = new web3.eth.Contract(abi, contractAddress);
-      const status = await contract.methods
+      await contract.methods
         .buyTokens()
         .send({ from: account, gas: fee, value: amount * 10 ** 18 })
-        .then((receipt: any) => {
+        .then(() => {
           toast(
             <Notification type={"success"} msg={"You bought successfully."} />
           );
         })
-        .catch((error: any) => {
+        .catch(() => {
           toast(<Notification type={"fail"} msg={"Errors occured."} />);
         });
     } catch (error) {}
@@ -114,17 +114,6 @@ const Hero = () => {
       // Get Ethereum selected account
       const accounts = await web3Instance.eth.getAccounts();
       setAccount(accounts[0]);
-      // Subscribe to account changes
-      (window as any).ethereum.on(
-        "accountsChanged",
-        function (accounts: string[]) {}
-      );
-
-      // Subscribe to network changes
-      (window as any).ethereum.on(
-        "chainChanged",
-        function (networkId: string) {}
-      );
 
       toast(
         <Notification
