@@ -12,6 +12,8 @@ import BgWeb from "../assets/bg-web.png";
 import { toast } from "react-toastify";
 import Notification from "../components/Notification";
 
+import { ToastContainer } from "react-toastify";
+
 const contractAddress = "0xb91fFF5ec726f719dbD68d2EDf588958dfbA81De";
 const abi = MyTokenContractABI;
 
@@ -42,9 +44,7 @@ const Hero = () => {
         .calcPrice(web3.utils.toWei(buyAmount.toString(), "ether"))
         .call();
       setTokenReceived(parseFloat(web3.utils.fromWei(tokenPrice, "ether")));
-    } catch (error) {
-      console.error("Error calculating token price:", error);
-    }
+    } catch (error) {}
   };
 
   const handleRebalance = async () => {
@@ -53,9 +53,7 @@ const Hero = () => {
 
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods.buyTokens().call();
-    } catch (error) {
-      console.error("Error calculating token price:", error);
-    }
+    } catch (error) {}
   };
 
   const handleBuy = async () => {
@@ -63,8 +61,12 @@ const Hero = () => {
     const fee = parseFloat(gasFee);
     try {
       if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
-        // toast(<Notification type={"success"} msg={""} />);
-        toast(<Notification type={"fail"} msg={"errorMsg"} />);
+        toast(
+          <Notification
+            type={"warn"}
+            msg={"Please enter exact amount and gas fee."}
+          />
+        );
         return;
       }
 
@@ -72,8 +74,14 @@ const Hero = () => {
       const status = await contract.methods
         .buyTokens()
         .send({ from: account, gas: fee, value: amount * 10 ** 18 })
-        .then((receipt: any) => {})
-        .catch((error: any) => {});
+        .then((receipt: any) => {
+          toast(
+            <Notification type={"success"} msg={"You bought successfully."} />
+          );
+        })
+        .catch((error: any) => {
+          toast(<Notification type={"fail"} msg={"Errors occured."} />);
+        });
     } catch (error) {}
   };
 
@@ -85,39 +93,40 @@ const Hero = () => {
     try {
       // Check if MetaMask is installed
       if (!(window as any).ethereum) {
-        console.error("MetaMask not found");
         return;
       }
 
       // Request account access
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-      console.log("Connected to MetaMask!");
 
       // Create Web3 instance
       const web3Instance = new Web3((window as any).ethereum);
 
       // Get Ethereum selected account
       const accounts = await web3Instance.eth.getAccounts();
-      console.log("Selected account:", accounts[0]);
       setAccount(accounts[0]);
       // Subscribe to account changes
       (window as any).ethereum.on(
         "accountsChanged",
-        function (accounts: string[]) {
-          console.log("Account changed:", accounts[0]);
-        }
+        function (accounts: string[]) {}
       );
 
       // Subscribe to network changes
-      (window as any).ethereum.on("chainChanged", function (networkId: string) {
-        console.log("Network changed:", networkId);
-      });
+      (window as any).ethereum.on(
+        "chainChanged",
+        function (networkId: string) {}
+      );
+
+      toast(
+        <Notification
+          type={"success"}
+          msg={`Connected successfully. \n ${accounts[0]}`}
+        />
+      );
 
       setIsConnected(true);
       setWeb3(web3Instance);
-    } catch (error) {
-      console.error("Error connecting to MetaMask:", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -265,6 +274,8 @@ const Hero = () => {
           </Grid>
         </Grid>
       </div>
+
+      <ToastContainer autoClose={3000} style={{ paddingTop: "90px" }} />
     </section>
   );
 };

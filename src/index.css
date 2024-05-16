@@ -4,11 +4,21 @@
 
 /* third-party libraries CSS */
 
-h1,h2,h3,h4,h5,img,li{
+h1,
+h2,
+h3,
+h4,
+h5,
+img,
+li {
   user-select: none;
 }
 
-h1,h2,h3,h4,h5{
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: "Roboto Flex", sans-serif;
 }
 
@@ -50,23 +60,39 @@ h1,h2,h3,h4,h5{
   }
 }
 
-
 ul {
-  list-style-image: linear-gradient(to bottom, #00C2B6, #5865F2);
+  list-style-image: linear-gradient(to bottom, #00c2b6, #5865f2);
 }
 
-nav ul{
+nav ul {
   list-style: none;
 }
 
-li{
+li {
   padding-inline-start: 1rem;
 }
 
-nav li{
+nav li {
   padding-inline-start: 0rem;
 }
 
-.hard{
-  mix-blend-mode:darken;
+.hard {
+  mix-blend-mode: darken;
+}
+
+.Toastify__toast {
+  padding: 0 !important;
+  background: transparent !important;
+  min-height: auto !important;
+  font-family: unset !important;
+}
+.Toastify__toast-body {
+  padding: 0 !important;
+  height: 100% !important;
+}
+.Toastify__close-button {
+  display: none !important;
+}
+.Toastify__toast-container {
+  width: 320px !important;
 }

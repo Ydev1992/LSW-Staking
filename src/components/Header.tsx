@@ -158,9 +158,9 @@ const Header = () => {
             <Image src={Twitter} className="!w-[34px] !h-[34px]" />
             <Image src={Telegram} className="!w-[34px] !h-[34px]" />
             <Image src={Discord} className="!w-[34px] !h-[34px]" />
-            <button className="bg-[#5865F2] rounded-md shadow-md px-4 py-1 text-xs text-white">
+            {/* <button className="bg-[#5865F2] rounded-md shadow-md px-4 py-1 text-xs text-white">
               Buy Now
-            </button>
+            </button> */}
           </div>
         </div>
 
