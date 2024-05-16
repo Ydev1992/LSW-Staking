@@ -102,14 +102,34 @@ const Hero = () => {
     try {
       // Check if MetaMask is installed
       if (!(window as any).ethereum) {
+        toast(
+          <Notification
+            type={""}
+            msg={`Please install metamask or other ethereum wallet.`}
+          />
+        );
         return;
+      }
+
+      // Create Web3 instance
+      const web3Instance = new Web3((window as any).ethereum);
+      const netId = await web3Instance.eth.net.getId();
+      if (Number(netId) !== 1) {
+        toast(
+          <Notification
+            type={""}
+            msg={`Change your network with Ethereum Mainnet.`}
+          />
+        );
+
+        await (window as any).ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x1" }],
+        });
       }
 
       // Request account access
       await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-
-      // Create Web3 instance
-      const web3Instance = new Web3((window as any).ethereum);
 
       // Get Ethereum selected account
       const accounts = await web3Instance.eth.getAccounts();
@@ -238,7 +258,9 @@ const Hero = () => {
                   <button
                     className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
                     onClick={() =>
-                      setBuyAmount((balance - parseFloat(gasFee)).toString())
+                      setBuyAmount(
+                        Math.max(balance - parseFloat(gasFee), 0).toString()
+                      )
                     }
                   >
                     max
@@ -262,12 +284,20 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : (
+              ) : parseFloat(buyAmount) * 10 ** 18 + parseFloat(gasFee) <=
+                balance ? (
                 <button
                   onClick={handleBuy}
                   className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
                 >
                   Buy Now
+                </button>
+              ) : (
+                <button
+                  disabled
+                  className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
+                >
+                  Not Enought
                 </button>
               )}
             </Grid>
