@@ -38,7 +38,7 @@ const Hero = () => {
     const fee = parseFloat(gasFee) / 10 ** 18;
     try {
       if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
-        setTokenReceived("0");
+        setTokenReceived(0);
         return;
       }
 
