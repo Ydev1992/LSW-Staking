@@ -22,7 +22,7 @@ const Hero = () => {
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("300000");
+  const [gasFee, setGasFee] = useState<string>("0.000158");
   // const [sellAmount, setSellAmount] = useState<string>("");
   // const [ethRequired, setEthRequired] = useState<number>(0);
   const [tokensReceived, setTokenReceived] = useState<number>(0);
@@ -35,7 +35,7 @@ const Hero = () => {
 
   const calcReceiveAmount = async () => {
     const amount = parseFloat(buyAmount);
-    const fee = parseFloat(gasFee) / 10 ** 18;
+    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
     try {
       if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
         setTokenReceived(0);
@@ -47,7 +47,7 @@ const Hero = () => {
         .buyTokens({ value: amount * 10 ** 18 })
         .estimateGas({ gas: 5000000 })
         .then((gasAmount: any) => {
-          setGasFee(gasAmount.toString());
+          setGasFee(((gasAmount * 6) / 10 ** 9).toString());
         });
     } catch (error) {}
 
@@ -74,7 +74,7 @@ const Hero = () => {
 
   const handleBuy = async () => {
     const amount = parseFloat(buyAmount);
-    const fee = parseFloat(gasFee) / 10 ** 18;
+    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
     try {
       if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
         toast(
@@ -286,7 +286,7 @@ const Hero = () => {
                     onClick={() =>
                       setBuyAmount(
                         Math.max(
-                          balance - parseFloat(gasFee) / 10 ** 18,
+                          balance - parseFloat(gasFee) / 10 ** 9 / 6,
                           0
                         ).toString()
                       )
@@ -313,7 +313,7 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 18 <=
+              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 9 / 6 <=
                 balance ? (
                 <button
                   onClick={handleBuy}
