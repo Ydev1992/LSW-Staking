@@ -27,7 +27,7 @@ const Hero = () => {
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("450000"); // in Gwei
+  const [gasFee, setGasFee] = useState<string>("0.0"); // in Gwei
   const [gasPrice, setGasPrice] = useState<string>("6000000000");
   const [tokensReceived, setTokenReceived] = useState<number>(0);
   const [isConnected, setIsConnected] = useState<boolean>(false);
@@ -57,8 +57,11 @@ const Hero = () => {
           .estimateGas(dataForEstimatingGas)
           .then((gasAmount: any) => {
             const gasFeeInWei = gasAmount * gasPriceInWei;
-            const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
-            setGasFee(myRound(gasFeeInGwei).toString());
+            // const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
+            // setGasFee(myRound(gasFeeInGwei).toString());
+            setGasFee(
+              myRound(web3.utils.fromWei(gasFeeInWei, "ether")).toString()
+            );
           });
       });
     } catch (error) {}
@@ -103,7 +106,8 @@ const Hero = () => {
       }
 
       const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
-      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
+      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "ether");
+      // const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
       const contract = new (web3 as any).eth.Contract(abi, contractAddress);
       await contract.methods
         .buyTokens()
@@ -187,17 +191,17 @@ const Hero = () => {
     setWeb3(web3Instance);
     web3Instance.eth.net.getId().then((netId) => {
       if (Number(netId) !== 1) {
-        toast(
-          <Notification
-            type={""}
-            msg={`Switch your network to Ethereum Mainnet.`}
-          />
-        );
+        // toast(
+        //   <Notification
+        //     type={""}
+        //     msg={`Switch your network to Ethereum Mainnet.`}
+        //   />
+        // );
       }
-      (window as any).ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x1" }],
-      });
+      // (window as any).ethereum.request({
+      //   method: "wallet_switchEthereumChain",
+      //   params: [{ chainId: "0x1" }],
+      // });
     });
 
     calcBalance();
@@ -309,12 +313,7 @@ const Hero = () => {
                     onClick={() =>
                       setBuyAmount(
                         myRound(
-                          Math.max(
-                            balance -
-                              web3.utils.toWei(parseFloat(gasFee), "gwei") /
-                                10 ** 18,
-                            0
-                          )
+                          Math.max(balance - parseFloat(gasFee), 0)
                         ).toString()
                       )
                     }
@@ -343,9 +342,7 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : parseFloat(buyAmount) +
-                  web3.utils.toWei(parseFloat(gasFee), "gwei") / 10 ** 18 <=
-                balance ? (
+              ) : parseFloat(buyAmount) + parseFloat(gasFee) <= balance ? (
                 <button
                   onClick={handleBuy}
                   className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
