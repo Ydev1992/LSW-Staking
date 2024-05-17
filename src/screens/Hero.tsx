@@ -22,19 +22,35 @@ const Hero = () => {
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("21000");
+  const [gasFee, setGasFee] = useState<string>("0.000158");
   // const [sellAmount, setSellAmount] = useState<string>("");
   // const [ethRequired, setEthRequired] = useState<number>(0);
   const [tokensReceived, setTokenReceived] = useState<number>(0);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const calcBalance = async () => {
-    const tempContract = new web3.eth.Contract(abi, contractAddress);
-    const tempBalance = await tempContract.methods.balance().call();
-    setBalance(parseFloat(tempBalance));
+    const tmpBal = await web3.eth.getBalance(account);
+    setBalance(parseFloat(tmpBal) / 10 ** 18);
   };
 
   const calcReceiveAmount = async () => {
+    const amount = parseFloat(buyAmount);
+    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
+    try {
+      if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
+        setTokenReceived(0);
+        return;
+      }
+
+      const contract = new web3.eth.Contract(abi, contractAddress);
+      await contract.methods
+        .buyTokens({ value: amount * 10 ** 18 })
+        .estimateGas({ gas: 5000000 })
+        .then((gasAmount: any) => {
+          setGasFee(((gasAmount * 6) / 10 ** 9).toString());
+        });
+    } catch (error) {}
+
     if (parseFloat(buyAmount) < 0) return;
     try {
       if (!web3) return;
@@ -43,7 +59,7 @@ const Hero = () => {
       const tokenPrice = await contract.methods
         .calcPrice(web3.utils.toWei(buyAmount.toString(), "ether"))
         .call();
-      setTokenReceived(parseFloat(web3.utils.fromWei(tokenPrice, "ether")));
+      setTokenReceived(parseFloat(tokenPrice) / 10 ** 18);
     } catch (error) {}
   };
 
@@ -58,7 +74,7 @@ const Hero = () => {
 
   const handleBuy = async () => {
     const amount = parseFloat(buyAmount);
-    const fee = parseFloat(gasFee);
+    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
     try {
       if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
         toast(
@@ -70,20 +86,12 @@ const Hero = () => {
         return;
       }
 
-      if (amount * 10 ** 18 + fee > balance) {
-        toast(
-          <Notification
-            type={"warn"}
-            msg={"Not enough balance to buy token."}
-          />
-        );
-        return;
-      }
       const contract = new web3.eth.Contract(abi, contractAddress);
       await contract.methods
         .buyTokens()
-        .send({ from: account, gas: fee, value: amount * 10 ** 18 })
+        .send({ from: account, gas: gasFee, value: amount * 10 ** 18 })
         .then(() => {
+          setBuyAmount("0");
           toast(
             <Notification type={"success"} msg={"You bought successfully."} />
           );
@@ -165,7 +173,8 @@ const Hero = () => {
       });
     });
 
-    calcBalance(), calcReceiveAmount();
+    calcBalance();
+    calcReceiveAmount();
   }, [isConnected, buyAmount]);
 
   return (
@@ -256,7 +265,7 @@ const Hero = () => {
                   placeholder=""
                   value={gasFee}
                   onChange={(e) => setGasFee(e.target.value)}
-                  className="w-[50px] rounded-md bg-transparent outline-none text-right text-white"
+                  className="w-[90px] rounded-md bg-transparent outline-none text-right text-white"
                 />
               </h2>
             </Grid>
@@ -276,7 +285,10 @@ const Hero = () => {
                     className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
                     onClick={() =>
                       setBuyAmount(
-                        Math.max(balance - parseFloat(gasFee), 0).toString()
+                        Math.max(
+                          balance - parseFloat(gasFee) / 10 ** 9 / 6,
+                          0
+                        ).toString()
                       )
                     }
                   >
@@ -301,7 +313,7 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : parseFloat(buyAmount) * 10 ** 18 + parseFloat(gasFee) <=
+              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 9 / 6 <=
                 balance ? (
                 <button
                   onClick={handleBuy}
