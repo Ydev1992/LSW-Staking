@@ -35,8 +35,7 @@ const menuData: Menu[] = [
 ];
 
 const Header = () => {
-  const [navigationOpen, setNavigationOpen] = useState(false);
-  const [dropdownToggler, setDropdownToggler] = useState(false);
+  const navigationOpen = false;
   const [stickyMenu, setStickyMenu] = useState(false);
 
   //const pathUrl = "/"
@@ -59,16 +58,12 @@ const Header = () => {
     <header
       className={`fixed left-0 top-0 z-99999 w-full py-4 bg-primary shadow-lg transition duration-100 rounded-sm`}
     >
-      <div className="relative mx-auto max-w-full items-center justify-between px-4 md:px-8 xl:flex 2xl:px-20">
+      <div className="relative flex mx-auto max-w-full items-center justify-between px-7 sm:px-8  2xl:px-20">
         <div className="flex w-full items-center justify-between">
           <Logo />
 
           {/* <!-- Hamburger Toggle BTN --> */}
-          <button
-            aria-label="hamburger Toggler"
-            className="block xl:hidden"
-            onClick={() => setNavigationOpen(!navigationOpen)}
-          >
+          <button aria-label="hamburger Toggler" className="block sm:hidden">
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="absolute right-0 block h-full w-full">
                 <span
@@ -105,51 +100,21 @@ const Header = () => {
         </div>
 
         <div
-          className={`invisible h-0 w-full items-center gap-8 xl:visible xl:flex xl:h-auto xl:w-full content-end ${
+          className={`hidden items-center gap-8 md:visible sm:flex sm:h-auto sm:w-full content-end ${
             navigationOpen &&
-            "navbar !visible mt-4 md:mt-0 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
+            "navbar !visible sm:mt-0 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
           }`}
         >
           <nav>
-            <ul className="flex flex-col gap-5 xl:flex-row xl:items-center xl:gap-10">
+            <ul className="flex gap-5 flex-row xl:items-center xl:gap-10">
               {menuData.map((menuItem, key) => (
                 <li key={key} className={menuItem.submenu && "group relative"}>
-                  {menuItem.submenu ? (
-                    <>
-                      <button
-                        onClick={() => setDropdownToggler(!dropdownToggler)}
-                        className="flex cursor-pointer items-center justify-between gap-3 hover:text-primary"
-                      >
-                        {menuItem.title}
-                        <span>
-                          <svg
-                            className="h-3 w-3 cursor-pointer fill-waterloo group-hover:fill-primary"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"
-                          >
-                            <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z" />
-                          </svg>
-                        </span>
-                      </button>
-
-                      <ul
-                        className={`dropdown ${dropdownToggler ? "flex" : ""}`}
-                      >
-                        {menuItem.submenu.map((item, key) => (
-                          <li key={key} className="hover:text-primary">
-                            <a href={item.path || "#"}>{item.title}</a>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <a
-                      href={`${menuItem.path}`}
-                      className="text-white text-[16px] font-bold"
-                    >
-                      {menuItem.title}
-                    </a>
-                  )}
+                  <a
+                    href={`${menuItem.path}`}
+                    className="text-white text-[16px] font-bold"
+                  >
+                    {menuItem.title}
+                  </a>
                 </li>
               ))}
             </ul>
