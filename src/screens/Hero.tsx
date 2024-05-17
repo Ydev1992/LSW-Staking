@@ -45,23 +45,16 @@ const Hero = () => {
         return;
       }
 
-      const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
       const contract = new (web3 as any).eth.Contract(abi, contractAddress);
-      const dataForEstimatingGas = account
-        ? { value: buyAmountInWei, from: account }
-        : { value: buyAmountInWei };
       (web3 as any).eth.getGasPrice().then(async (gasPriceInWei: any) => {
         setGasPrice(myRound(gasPriceInWei).toString());
         await contract.methods
           .buyTokens()
-          .estimateGas(dataForEstimatingGas)
+          .estimateGas()
           .then((gasAmount: any) => {
             const gasFeeInWei = gasAmount * gasPriceInWei;
-            // const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
-            // setGasFee(myRound(gasFeeInGwei).toString());
-            setGasFee(
-              myRound(web3.utils.fromWei(gasFeeInWei, "ether")).toString()
-            );
+            const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
+            setGasFee(myRound(gasFeeInGwei).toString());
           });
       });
     } catch (error) {}
@@ -106,8 +99,7 @@ const Hero = () => {
       }
 
       const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
-      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "ether");
-      // const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
+      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
       const contract = new (web3 as any).eth.Contract(abi, contractAddress);
       await contract.methods
         .buyTokens()
@@ -156,10 +148,10 @@ const Hero = () => {
           />
         );
 
-        // await (window as any).ethereum.request({
-        //   method: "wallet_switchEthereumChain",
-        //   params: [{ chainId: "0x1" }],
-        // });
+        await (window as any).ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x1" }],
+        });
       }
 
       // Request account access
@@ -191,17 +183,17 @@ const Hero = () => {
     setWeb3(web3Instance);
     web3Instance.eth.net.getId().then((netId) => {
       if (Number(netId) !== 1) {
-        // toast(
-        //   <Notification
-        //     type={""}
-        //     msg={`Switch your network to Ethereum Mainnet.`}
-        //   />
-        // );
+        toast(
+          <Notification
+            type={""}
+            msg={`Switch your network to Ethereum Mainnet.`}
+          />
+        );
       }
-      // (window as any).ethereum.request({
-      //   method: "wallet_switchEthereumChain",
-      //   params: [{ chainId: "0x1" }],
-      // });
+      (window as any).ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x1" }],
+      });
     });
 
     calcBalance();
@@ -209,8 +201,8 @@ const Hero = () => {
   }, [isConnected, buyAmount]);
 
   return (
-    <section className="overflow-hidden mt-[8%] md:mt-0">
-      <div className="grid grid-cols-1 md:grid-cols-2 justify-between lg:px-20 bg-hero lg:py-[10%] p-4 gap-20 md:gap-0 overflow-hidden max-w-full relative">
+    <section className="overflow-hidden mt-21.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 justify-between  bg-hero p-4 gap-20 md:gap-0 overflow-hidden max-w-full relative">
         <div className="absolute flex-col grow items-center max-h-[500px] overflow-hidden max-w-[50%] top-[60%] -left-[8%] -z-1">
           <Image src={Chart} alt="bg-image" className="w-full h-[500px]" />
         </div>
@@ -313,7 +305,10 @@ const Hero = () => {
                     onClick={() =>
                       setBuyAmount(
                         myRound(
-                          Math.max(balance - parseFloat(gasFee), 0)
+                          Math.max(
+                            balance - parseFloat(gasFee) / 10 ** 9 + 0.0001,
+                            0
+                          )
                         ).toString()
                       )
                     }
@@ -342,7 +337,8 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : parseFloat(buyAmount) + parseFloat(gasFee) <= balance ? (
+              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 9 <=
+                balance + 0.0001 ? (
                 <button
                   onClick={handleBuy}
                   className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
