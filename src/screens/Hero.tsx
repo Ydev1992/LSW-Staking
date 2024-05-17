@@ -17,49 +17,61 @@ import { ToastContainer } from "react-toastify";
 const contractAddress = "0xb91fFF5ec726f719dbD68d2EDf588958dfbA81De";
 const abi = MyTokenContractABI;
 
+const myRound = (valueToBeRounded: any): any => {
+  let tmpVal = Math.round(parseFloat(valueToBeRounded) * 10 ** 4);
+  return tmpVal / 10 ** 4;
+};
+
 const Hero = () => {
   const [web3, setWeb3] = useState<any>(null);
   const [account, setAccount] = useState<string>("");
   const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("0.000158");
-  // const [sellAmount, setSellAmount] = useState<string>("");
-  // const [ethRequired, setEthRequired] = useState<number>(0);
+  const [gasFee, setGasFee] = useState<string>("450000"); // in Gwei
+  const [gasPrice, setGasPrice] = useState<string>("6000000000");
   const [tokensReceived, setTokenReceived] = useState<number>(0);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const calcBalance = async () => {
-    const tmpBal = await web3.eth.getBalance(account);
-    setBalance(parseFloat(tmpBal) / 10 ** 18);
+    if (web3 == null || account === "") return;
+    const tmpBal = await (web3 as any).eth.getBalance(account);
+    setBalance(myRound(parseFloat(tmpBal) / 10 ** 18));
   };
 
   const calcReceiveAmount = async () => {
-    const amount = parseFloat(buyAmount);
-    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
     try {
-      if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
-        setTokenReceived(0);
+      if (!web3 || isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
+        setTokenReceived(0.0);
         return;
       }
 
-      const contract = new web3.eth.Contract(abi, contractAddress);
-      await contract.methods
-        .buyTokens({ value: amount * 10 ** 18 })
-        .estimateGas({ gas: 5000000 })
-        .then((gasAmount: any) => {
-          setGasFee(((gasAmount * 6) / 10 ** 9).toString());
-        });
+      const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
+      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
+      const dataForEstimatingGas = account
+        ? { value: buyAmountInWei, from: account }
+        : { value: buyAmountInWei };
+      (web3 as any).eth.getGasPrice().then(async (gasPriceInWei: any) => {
+        setGasPrice(myRound(gasPriceInWei).toString());
+        await contract.methods
+          .buyTokens()
+          .estimateGas(dataForEstimatingGas)
+          .then((gasAmount: any) => {
+            const gasFeeInWei = gasAmount * gasPriceInWei;
+            const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
+            setGasFee(myRound(gasFeeInGwei).toString());
+          });
+      });
     } catch (error) {}
 
     if (parseFloat(buyAmount) < 0) return;
     try {
       if (!web3) return;
 
-      const contract = new web3.eth.Contract(abi, contractAddress);
+      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
       const tokenPrice = await contract.methods
         .calcPrice(web3.utils.toWei(buyAmount.toString(), "ether"))
         .call();
-      setTokenReceived(parseFloat(tokenPrice) / 10 ** 18);
+      setTokenReceived(myRound(parseFloat(tokenPrice) / 10 ** 18));
     } catch (error) {}
   };
 
@@ -67,16 +79,20 @@ const Hero = () => {
   //   try {
   //     if (!web3) return;
 
-  //     const contract = new web3.eth.Contract(abi, contractAddress);
+  //     const contract = new (web3 as any).eth.Contract(abi, contractAddress);
   //     await contract.methods.buyTokens().call();
   //   } catch (error) {}
   // };
 
   const handleBuy = async () => {
-    const amount = parseFloat(buyAmount);
-    const fee = parseFloat(gasFee) / 10 ** 9 / 6;
     try {
-      if (!web3 || isNaN(amount) || amount <= 0 || isNaN(fee) || fee <= 0) {
+      if (
+        !web3 ||
+        isNaN(parseFloat(buyAmount)) ||
+        parseFloat(buyAmount) <= 0 ||
+        isNaN(parseFloat(gasFee)) ||
+        parseFloat(gasFee) <= 0
+      ) {
         toast(
           <Notification
             type={"warn"}
@@ -86,10 +102,16 @@ const Hero = () => {
         return;
       }
 
-      const contract = new web3.eth.Contract(abi, contractAddress);
+      const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
+      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
+      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
       await contract.methods
         .buyTokens()
-        .send({ from: account, gas: gasFee, value: amount * 10 ** 18 })
+        .send({
+          from: account,
+          gas: gasFeeInWei / parseFloat(gasPrice),
+          value: buyAmountInWei,
+        })
         .then(() => {
           setBuyAmount("0");
           toast(
@@ -130,10 +152,10 @@ const Hero = () => {
           />
         );
 
-        await (window as any).ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x1" }],
-        });
+        // await (window as any).ethereum.request({
+        //   method: "wallet_switchEthereumChain",
+        //   params: [{ chainId: "0x1" }],
+        // });
       }
 
       // Request account access
@@ -156,6 +178,11 @@ const Hero = () => {
   };
 
   useEffect(() => {
+    if (!(window as any).ethereum) {
+      toast(
+        <Notification type={"fail"} msg={`Please install ethereum wallet.`} />
+      );
+    }
     const web3Instance = new Web3((window as any).ethereum);
     setWeb3(web3Instance);
     web3Instance.eth.net.getId().then((netId) => {
@@ -260,13 +287,9 @@ const Hero = () => {
               <h2 className="lg:text-[15px] text-gray-400 font-bold">
                 BALANCE : <span className="text-white">{balance}</span>{" "}
                 <span className="mr-2 ml-2">{"\u2022"}</span> GASFEE{" "}
-                <input
-                  type="text"
-                  placeholder=""
-                  value={gasFee}
-                  onChange={(e) => setGasFee(e.target.value)}
-                  className="w-[90px] rounded-md bg-transparent outline-none text-right text-white"
-                />
+                <span className="w-[90px] rounded-md bg-transparent outline-none text-right text-white">
+                  {gasFee}
+                </span>
               </h2>
             </Grid>
 
@@ -285,9 +308,13 @@ const Hero = () => {
                     className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
                     onClick={() =>
                       setBuyAmount(
-                        Math.max(
-                          balance - parseFloat(gasFee) / 10 ** 9 / 6,
-                          0
+                        myRound(
+                          Math.max(
+                            balance -
+                              web3.utils.toWei(parseFloat(gasFee), "gwei") /
+                                10 ** 18,
+                            0
+                          )
                         ).toString()
                       )
                     }
@@ -298,9 +325,12 @@ const Hero = () => {
               </Grid>
 
               <Grid className="bg-[#001C29] w-full rounded-md gap-4 p-4">
-                <h2 className="lg:text-[16px] font-semibold text-white">
-                  {tokensReceived}
-                </h2>
+                <input
+                  type="text"
+                  value={tokensReceived}
+                  readOnly
+                  className="text-white w-[100%] rounded bg-transparent outline-none"
+                />
                 <h2 className="lg:text-[16px] font-semibold">YOU RECEIVE</h2>
               </Grid>
             </Block>
@@ -313,7 +343,8 @@ const Hero = () => {
                 >
                   CONNECT WALLET
                 </button>
-              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 9 / 6 <=
+              ) : parseFloat(buyAmount) +
+                  web3.utils.toWei(parseFloat(gasFee), "gwei") / 10 ** 18 <=
                 balance ? (
                 <button
                   onClick={handleBuy}
