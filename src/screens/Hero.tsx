@@ -118,7 +118,7 @@ const Hero = () => {
         toast(
           <Notification
             type={""}
-            msg={`Change your network with Ethereum Mainnet.`}
+            msg={`Switch your network to Ethereum Mainnet.`}
           />
         );
 
@@ -148,7 +148,24 @@ const Hero = () => {
   };
 
   useEffect(() => {
-    isConnected && calcBalance(), calcReceiveAmount();
+    const web3Instance = new Web3((window as any).ethereum);
+    setWeb3(web3Instance);
+    web3Instance.eth.net.getId().then((netId) => {
+      if (Number(netId) !== 1) {
+        toast(
+          <Notification
+            type={""}
+            msg={`Switch your network to Ethereum Mainnet.`}
+          />
+        );
+      }
+      (window as any).ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x1" }],
+      });
+    });
+
+    calcBalance(), calcReceiveAmount();
   }, [isConnected, buyAmount]);
 
   return (
@@ -295,9 +312,9 @@ const Hero = () => {
               ) : (
                 <button
                   disabled
-                  className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
+                  className="bg-gray-700 rounded-md p-1 lg:text-[24px] text-white font-bold"
                 >
-                  Not Enought
+                  Insufficient amount
                 </button>
               )}
             </Grid>
