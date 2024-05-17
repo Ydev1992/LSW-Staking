@@ -138,7 +138,7 @@ const Hero = () => {
       }
 
       // Create Web3 instance
-      const web3Instance = new Web3((window as any).ethereum);
+      const web3Instance = new Web3("https://ethereum-rpc.publicnode.com");
       const netId = await web3Instance.eth.net.getId();
       if (Number(netId) !== 1) {
         toast(
@@ -179,7 +179,7 @@ const Hero = () => {
         <Notification type={"fail"} msg={`Please install ethereum wallet.`} />
       );
     }
-    const web3Instance = new Web3((window as any).ethereum);
+    const web3Instance = new Web3("https://ethereum-rpc.publicnode.com");
     setWeb3(web3Instance);
     web3Instance.eth.net.getId().then((netId) => {
       if (Number(netId) !== 1) {
