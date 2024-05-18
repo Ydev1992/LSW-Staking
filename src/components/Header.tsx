@@ -61,8 +61,6 @@ const Header = () => {
       <div className="relative flex mx-auto max-w-full items-center justify-between px-7 sm:px-8  2xl:px-20">
         <div className="flex w-full items-center justify-between">
           <Logo />
-
-          {/* <!-- Hamburger Toggle BTN --> */}
           <button aria-label="hamburger Toggler" className="block sm:hidden">
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="absolute right-0 block h-full w-full">
@@ -96,7 +94,6 @@ const Header = () => {
               </span>
             </span>
           </button>
-          {/* <!-- Hamburger Toggle BTN --> */}
         </div>
 
         <div
@@ -124,13 +121,9 @@ const Header = () => {
             <Image src={Twitter} className="!w-[34px] !h-[34px]" />
             <Image src={Telegram} className="!w-[34px] !h-[34px]" />
             <Image src={Discord} className="!w-[34px] !h-[34px]" />
-            {/* <button className="bg-[#5865F2] rounded-md shadow-md px-4 py-1 text-xs text-white">
-              Buy Now
-            </button> */}
           </div>
         </div>
-
-        {/* Nav Menu Start   */}
+        <w3m-button />
       </div>
     </header>
   );

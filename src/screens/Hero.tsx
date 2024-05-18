@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Web3 from "web3";
 import MyTokenContractABI from "../MyToken.json";
 
+//images
 import Image from "../components/Image";
 import Grid from "../components/Grid";
 import Block from "../components/Block";
@@ -9,10 +9,22 @@ import Eth from "../assets/eth.png";
 import Chart from "../assets/charts.png";
 import BgWeb from "../assets/bg-web.png";
 
+//notification dependency
 import { toast } from "react-toastify";
 import Notification from "../components/Notification";
-
 import { ToastContainer } from "react-toastify";
+
+//wagmi dependecy
+import { config } from "../config";
+import { getGasPrice, estimateGas } from "@wagmi/core";
+import { mainnet } from "@wagmi/core/chains";
+import {
+  useAccount,
+  useBalance,
+  useReadContracts,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
 
 const contractAddress = "0xb91fFF5ec726f719dbD68d2EDf588958dfbA81De";
 const abi = MyTokenContractABI;
@@ -23,182 +35,161 @@ const myRound = (valueToBeRounded: any): any => {
 };
 
 const Hero = () => {
-  const [web3, setWeb3] = useState<any>(null);
-  const [account, setAccount] = useState<string>("");
-  const [balance, setBalance] = useState<number>(0);
   const [buyAmount, setBuyAmount] = useState<string>("");
-  const [gasFee, setGasFee] = useState<string>("0.0"); // in Gwei
-  const [gasPrice, setGasPrice] = useState<string>("6000000000");
-  const [tokensReceived, setTokenReceived] = useState<number>(0);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [gasFee, setGasFee] = useState<BigInt>(BigInt(0)); // in Gwei
 
-  const calcBalance = async () => {
-    if (web3 == null || account === "") return;
-    const tmpBal = await (web3 as any).eth.getBalance(account);
-    setBalance(myRound(parseFloat(tmpBal) / 10 ** 18));
-  };
+  const { data, refetch } = useReadContracts({
+    contracts: [
+      {
+        abi: abi,
+        address: contractAddress,
+        chainId: mainnet.id,
+        functionName: "calcPrice",
+        args: [parseFloat(buyAmount) * 10 ** 18],
+      },
+    ],
+  });
+
+  let { data: hash, error, isPending, writeContract } = useWriteContract();
+
+  const { address } = useAccount();
+  const balance = useBalance({ address: address });
+
+  useEffect(() => {
+    calcReceiveAmount();
+  }, [buyAmount]);
+
+  let receiveAmount = data?.[0];
 
   const calcReceiveAmount = async () => {
     try {
-      if (!web3 || isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
-        setTokenReceived(0.0);
+      if (isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
         return;
       }
+      await refetch();
 
-      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
-      (web3 as any).eth.getGasPrice().then(async (gasPriceInWei: any) => {
-        setGasPrice(myRound(gasPriceInWei).toString());
-        await contract.methods
-          .buyTokens()
-          .estimateGas()
-          .then((gasAmount: any) => {
-            const gasFeeInWei = gasAmount * gasPriceInWei;
-            const gasFeeInGwei = web3.utils.fromWei(gasFeeInWei, "gwei");
-            setGasFee(myRound(gasFeeInGwei).toString());
-          });
+      const tmpCurGasPrice = await getGasPrice(config, { chainId: mainnet.id });
+      const tmpEstimaedGasAmount = await estimateGas(config, {
+        chainId: mainnet.id,
       });
-    } catch (error) {}
-
-    if (parseFloat(buyAmount) < 0) return;
-    try {
-      if (!web3) return;
-
-      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
-      const tokenPrice = await contract.methods
-        .calcPrice(web3.utils.toWei(buyAmount.toString(), "ether"))
-        .call();
-      setTokenReceived(myRound(parseFloat(tokenPrice) / 10 ** 18));
+      const tmpGasFeeInWei = tmpEstimaedGasAmount * tmpCurGasPrice;
+      setGasFee(myRound(tmpGasFeeInWei / BigInt(10 ** 9)));
     } catch (error) {}
   };
 
-  // const handleRebalance = async () => {
-  //   try {
-  //     if (!web3) return;
-
-  //     const contract = new (web3 as any).eth.Contract(abi, contractAddress);
-  //     await contract.methods.buyTokens().call();
-  //   } catch (error) {}
-  // };
+  let { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+    hash,
+  });
 
   const handleBuy = async () => {
-    try {
-      if (
-        !web3 ||
-        isNaN(parseFloat(buyAmount)) ||
-        parseFloat(buyAmount) <= 0 ||
-        isNaN(parseFloat(gasFee)) ||
-        parseFloat(gasFee) <= 0
-      ) {
-        toast(
-          <Notification
-            type={"warn"}
-            msg={"Please enter exact amount and gas fee."}
-          />
-        );
-        return;
-      }
+    if (isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
+      // setBuyAmount("0");
+      // toast(
+      //   <Notification
+      //     type={"warn"}
+      //     msg={"Please enter exact amount and gas fee."}
+      //   />
+      // );
+      // return;
+    }
+    if (!address) return;
+    const buyAmountInWei = parseFloat(buyAmount) * 10 ** 18;
+    const gasFeeInWei = parseFloat(gasFee.toString()) * 10 ** 9;
+    const tmpCurGasPrice = await getGasPrice(config, { chainId: mainnet.id });
+    writeContract({
+      address: contractAddress,
+      abi,
+      functionName: "buyTokens",
+      args: [],
+      account: address,
+      gas: BigInt(gasFeeInWei) / tmpCurGasPrice,
+      value: BigInt(buyAmountInWei),
+    });
 
-      const buyAmountInWei = web3.utils.toWei(parseFloat(buyAmount), "ether");
-      const gasFeeInWei = web3.utils.toWei(parseFloat(gasFee), "gwei");
-      const contract = new (web3 as any).eth.Contract(abi, contractAddress);
-      await contract.methods
-        .buyTokens()
-        .send({
-          from: account,
-          gas: gasFeeInWei / parseFloat(gasPrice),
-          value: buyAmountInWei,
-        })
-        .then(() => {
-          setBuyAmount("0");
-          toast(
-            <Notification type={"success"} msg={"You bought successfully."} />
-          );
-        })
-        .catch(() => {
-          toast(<Notification type={"fail"} msg={"Errors occured."} />);
-        });
-    } catch (error) {}
+    if (hash) {
+      toast(
+        <Notification
+          type={"success"}
+          msg={`Tokens have been purchased successfully.${hash}`}
+        />
+      );
+    }
+
+    if (error !== null) {
+      toast(<Notification type={"fails"} msg={`${error}`} />);
+      error = null;
+    }
+    if (isConfirmed) {
+      toast(<Notification type={"success"} msg={`Transaction confirmed.`} />);
+      isConfirmed = false;
+    }
   };
 
   const handleSendChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setBuyAmount(e.target.value);
-  };
-
-  const connectWallet = async () => {
-    try {
-      // Check if MetaMask is installed
-      if (!(window as any).ethereum) {
-        toast(
-          <Notification
-            type={""}
-            msg={`Please install metamask or other ethereum wallet.`}
-          />
-        );
-        return;
-      }
-
-      // Create Web3 instance
-      const web3Instance = new Web3("https://ethereum-rpc.publicnode.com");
-      const netId = await web3Instance.eth.net.getId();
-      if (Number(netId) !== 1) {
-        toast(
-          <Notification
-            type={""}
-            msg={`Switch your network to Ethereum Mainnet.`}
-          />
-        );
-
-        await (window as any).ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x1" }],
-        });
-      }
-
-      // Request account access
-      await (window as any).ethereum.request({ method: "eth_requestAccounts" });
-
-      // Get Ethereum selected account
-      const accounts = await web3Instance.eth.getAccounts();
-      setAccount(accounts[0]);
-
-      toast(
-        <Notification
-          type={"success"}
-          msg={`Connected successfully. \n ${accounts[0]}`}
-        />
-      );
-
-      setIsConnected(true);
-      setWeb3(web3Instance);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    if (!(window as any).ethereum) {
-      toast(
-        <Notification type={"fail"} msg={`Please install ethereum wallet.`} />
-      );
-    }
-    const web3Instance = new Web3("https://ethereum-rpc.publicnode.com");
-    setWeb3(web3Instance);
-    web3Instance.eth.net.getId().then((netId) => {
-      if (Number(netId) !== 1) {
-        toast(
-          <Notification
-            type={""}
-            msg={`Switch your network to Ethereum Mainnet.`}
-          />
-        );
-      }
-      (window as any).ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x1" }],
-      });
-    });
-
-    calcBalance();
     calcReceiveAmount();
-  }, [isConnected, buyAmount]);
+    refetch();
+  };
+
+  const dispBalance = () => {
+    if (balance && balance.data) {
+      return (Number(balance.data.value) / 10 ** 18).toString();
+    }
+  };
+
+  const dispReceiveAmount = () => {
+    if (receiveAmount?.result) {
+      return (
+        BigInt(receiveAmount.result.toString()) / BigInt(10 ** 18)
+      ).toString();
+    }
+  };
+
+  const dispMaxButton = () => {
+    return (
+      <button
+        className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
+        onClick={() => {
+          alert(balance.data?.value);
+          if (balance && balance.data)
+            setBuyAmount(
+              myRound(
+                Math.max(
+                  Number(balance.data.value) / 10 ** 18 -
+                    Number(gasFee) / 10 ** 9 -
+                    0.0001,
+                  0
+                )
+              ).toString()
+            );
+        }}
+      >
+        max
+      </button>
+    );
+  };
+
+  const dispBuyButton = () => {
+    return balance &&
+      balance.data &&
+      Number(buyAmount) + Number(gasFee) / 10 ** 9 <
+        Number(balance.data.value) ? (
+      <button
+        onClick={handleBuy}
+        disabled={isPending}
+        className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
+      >
+        {isPending ? `Just a minute...` : `Buy Now`}
+      </button>
+    ) : (
+      <button
+        disabled
+        className="bg-gray-700 rounded-md p-1 lg:text-[24px] text-white font-bold"
+      >
+        Insufficient amount
+      </button>
+    );
+  };
 
   return (
     <section className="overflow-hidden mt-21.5">
@@ -281,10 +272,10 @@ const Hero = () => {
                 </Block>
               </Block>
               <h2 className="lg:text-[15px] text-gray-400 font-bold">
-                BALANCE : <span className="text-white">{balance}</span>{" "}
+                BALANCE : <span className="text-white">{dispBalance()}</span>{" "}
                 <span className="mr-2 ml-2">{"\u2022"}</span> GASFEE{" "}
                 <span className="w-[90px] rounded-md bg-transparent outline-none text-right text-white">
-                  {gasFee}
+                  {gasFee.toString()}
                 </span>
               </h2>
             </Grid>
@@ -299,60 +290,25 @@ const Hero = () => {
                   className="text-white w-[100%] rounded bg-transparent outline-none"
                 />
                 <h2 className="lg:text-[16px] font-semibold">
-                  YOU SEND{" "}
-                  <button
-                    className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
-                    onClick={() =>
-                      setBuyAmount(
-                        myRound(
-                          Math.max(
-                            balance - parseFloat(gasFee) / 10 ** 9 + 0.0001,
-                            0
-                          )
-                        ).toString()
-                      )
-                    }
-                  >
-                    max
-                  </button>
+                  YOU SEND
+                  {dispMaxButton()}
                 </h2>
               </Grid>
 
               <Grid className="bg-[#001C29] w-full rounded-md gap-4 p-4">
                 <input
                   type="text"
-                  value={tokensReceived}
+                  value={dispReceiveAmount()}
                   readOnly
                   className="text-white w-[100%] rounded bg-transparent outline-none"
                 />
+
                 <h2 className="lg:text-[16px] font-semibold">YOU RECEIVE</h2>
               </Grid>
             </Block>
 
-            <Grid className="px-[10%] pb-[4%]">
-              {!isConnected ? (
-                <button
-                  onClick={connectWallet}
-                  className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
-                >
-                  CONNECT WALLET
-                </button>
-              ) : parseFloat(buyAmount) + parseFloat(gasFee) / 10 ** 9 <=
-                balance + 0.0001 ? (
-                <button
-                  onClick={handleBuy}
-                  className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
-                >
-                  Buy Now
-                </button>
-              ) : (
-                <button
-                  disabled
-                  className="bg-gray-700 rounded-md p-1 lg:text-[24px] text-white font-bold"
-                >
-                  Insufficient amount
-                </button>
-              )}
+            <Grid className="px-[10%] pb-[4%] justify-between">
+              {dispBuyButton()}
             </Grid>
           </Grid>
         </Grid>
