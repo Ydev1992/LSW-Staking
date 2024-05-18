@@ -83,14 +83,14 @@ const Hero = () => {
 
   const handleBuy = async () => {
     if (isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
-      // setBuyAmount("0");
-      // toast(
-      //   <Notification
-      //     type={"warn"}
-      //     msg={"Please enter exact amount and gas fee."}
-      //   />
-      // );
-      // return;
+      setBuyAmount("0");
+      toast(
+        <Notification
+          type={"warn"}
+          msg={"Please enter exact amount and gas fee."}
+        />
+      );
+      return;
     }
     if (!address) return;
     const buyAmountInWei = parseFloat(buyAmount) * 10 ** 18;
@@ -148,9 +148,8 @@ const Hero = () => {
   const dispMaxButton = () => {
     return (
       <button
-        className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute right-3"
+        className="ml-2 pl-1 pr-1 text-white bg-[#498aa0] rounded-md absolute bottom-3 right-3"
         onClick={() => {
-          alert(balance.data?.value);
           if (balance && balance.data)
             setBuyAmount(
               myRound(
@@ -271,17 +270,31 @@ const Hero = () => {
                   <h2 className="font-semibold lg:text-[20px]">ETH</h2>
                 </Block>
               </Block>
-              <h2 className="lg:text-[15px] text-gray-400 font-bold">
-                BALANCE : <span className="text-white">{dispBalance()}</span>{" "}
-                <span className="mr-2 ml-2">{"\u2022"}</span> GASFEE{" "}
-                <span className="w-[90px] rounded-md bg-transparent outline-none text-right text-white">
-                  {gasFee.toString()}
-                </span>
-              </h2>
+              <div className="flex justify-between lg:text-[15px] text-gray-400 font-bold">
+                <div className="text-center">
+                  BALANCE : &nbsp;&nbsp;
+                  <span className="text-white">{dispBalance()}</span>
+                  &nbsp;
+                  <span className="text-gray-400 font-semibold text-[13px]">
+                    ETH &nbsp;
+                  </span>
+                </div>
+                <span className="mr-2 ml-2">{"\u2022"}</span>
+                <div className="text-center">
+                  GASFEE : &nbsp;&nbsp;
+                  <span className="w-[90px] rounded-md bg-transparent outline-none text-right text-white">
+                    {gasFee.toString()}
+                  </span>
+                  &nbsp;
+                  <span className="text-gray-400 font-semibold text-[13px]">
+                    GWEI
+                  </span>
+                </div>
+              </div>
             </Grid>
 
             <Block className="items-center px-[10%] gap-6">
-              <Grid className="bg-[#001C29] relative w-full rounded-md gap-4 p-4">
+              <Grid className="bg-[#001C29] h-full relative w-full rounded-md gap-4 p-4">
                 <input
                   type="text"
                   placeholder="Amount"
