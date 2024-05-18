@@ -64,7 +64,7 @@ const Header = () => {
         </div>
 
         <div
-          className={` items-center gap-8 sm:flex sm:h-auto  ${
+          className={` items-center  gap-8 sm:flex sm:h-auto  ${
             navigationOpen &&
             "navbar !visible sm:mt-0 h-auto max-h-[400px] rounded-md bg-white p-7.5 shadow-solid-5 dark:bg-blacksection xl:h-auto xl:p-0 xl:shadow-none xl:dark:bg-transparent"
           }`}
@@ -83,12 +83,14 @@ const Header = () => {
               ))}
             </ul>
           </nav>
-
-          <div className="flex items-center gap-6 xl:mt-0">
-            <Image src={Twitter} className="!w-[34px] !h-[34px]" />
-            <Image src={Telegram} className="!w-[34px] !h-[34px]" />
-            <Image src={Discord} className="!w-[34px] !h-[34px]" />
+          <div className="md:block hidden">
+            <div className="flex items-center gap-6 xl:mt-0">
+              <Image src={Twitter} className="!w-[34px] !h-[34px]" />
+              <Image src={Telegram} className="!w-[34px] !h-[34px]" />
+              <Image src={Discord} className="!w-[34px] !h-[34px]" />
+            </div>
           </div>
+          <w3m-connect-button label="Connect" />
         </div>
       </div>
     </header>
