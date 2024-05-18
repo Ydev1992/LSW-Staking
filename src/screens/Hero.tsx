@@ -16,7 +16,7 @@ import { ToastContainer } from "react-toastify";
 
 //wagmi dependecy
 import { config } from "../config";
-import { getGasPrice, estimateGas } from "@wagmi/core";
+import { getGasPrice, estimateGas, switchNetwork } from "@wagmi/core";
 import { mainnet } from "@wagmi/core/chains";
 import {
   useAccount,
@@ -24,6 +24,7 @@ import {
   useReadContracts,
   useWaitForTransactionReceipt,
   useWriteContract,
+  useChainId,
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
@@ -55,10 +56,22 @@ const Hero = () => {
 
   let { data: hash, error, isPending, writeContract } = useWriteContract();
 
+  const chainId = useChainId();
+
   const { address } = useAccount();
   const balance = useBalance({ address: address });
 
   useEffect(() => {
+    if (address && chainId && chainId !== mainnet.id) {
+      switchNetwork(config, { chainId: mainnet.id });
+      toast(
+        <Notification
+          type={""}
+          msg={"Please switch network to Ethereum Mainnet."}
+        />
+      );
+      return;
+    }
     calcReceiveAmount();
   }, [buyAmount]);
 
