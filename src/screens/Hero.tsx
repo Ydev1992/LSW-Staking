@@ -25,6 +25,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from "wagmi";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 const contractAddress = "0xb91fFF5ec726f719dbD68d2EDf588958dfbA81De";
 const abi = MyTokenContractABI;
@@ -35,6 +36,8 @@ const myRound = (valueToBeRounded: any): any => {
 };
 
 const Hero = () => {
+  const { open } = useWeb3Modal();
+
   const [buyAmount, setBuyAmount] = useState<string>("");
   const [gasFee, setGasFee] = useState<BigInt>(BigInt(0)); // in Gwei
 
@@ -169,6 +172,16 @@ const Hero = () => {
   };
 
   const dispBuyButton = () => {
+    if (address === undefined || address === null) {
+      return (
+        <button
+          onClick={() => open()}
+          className="bg-gradient-to-r via-[#00C2B6] from-[#5865F2] to-[#5865F2] rounded-md p-1 lg:text-[24px] text-white font-bold"
+        >
+          CONNECT WALLET
+        </button>
+      );
+    }
     return balance &&
       balance.data &&
       Number(buyAmount) + Number(gasFee) / 10 ** 9 <
