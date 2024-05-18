@@ -117,7 +117,7 @@ const Header = () => {
             </ul>
           </nav>
 
-          <div className="mt-7 flex items-center gap-6 xl:mt-0">
+          <div className="mt-7 invisible flex items-center gap-6 lg:mr-19 xl:mt-0 lg:visible">
             <Image src={Twitter} className="!w-[34px] !h-[34px]" />
             <Image src={Telegram} className="!w-[34px] !h-[34px]" />
             <Image src={Discord} className="!w-[34px] !h-[34px]" />
