@@ -40,7 +40,7 @@ const Buy = () => {
           <Grid className="gap-3 items-center md:items-start">
             <Image src={Btc} alt="bg-image" className="w-[147px] h-[83px]" />
             <h2 className="font-bold lg:text-[40px] lg:leading-[50px] text-white font-inter">
-              Earn BTC
+              Earn LSW
             </h2>
             <h2 className="text-white lg:text-[32px] lg:leading-[38px] font-normal">
               Airdrops, top contributors of the pre-sale will be given a

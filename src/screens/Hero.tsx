@@ -51,6 +51,12 @@ const Hero = () => {
         functionName: "calcPrice",
         args: [parseFloat(buyAmount) * 10 ** 18],
       },
+      {
+        abi: abi,
+        address: contractAddress,
+        chainId: mainnet.id,
+        functionName: "balance",
+      },
     ],
   });
 
@@ -60,6 +66,7 @@ const Hero = () => {
 
   const { address } = useAccount();
   const balance = useBalance({ address: address });
+
 
   useEffect(() => {
     if (address && chainId && chainId !== mainnet.id) {
@@ -75,7 +82,9 @@ const Hero = () => {
     calcReceiveAmount();
   }, [buyAmount]);
 
+
   let receiveAmount = data?.[0];
+  let _lswbalance = data?.[1];
 
   const calcReceiveAmount = async () => {
     try {
@@ -83,6 +92,7 @@ const Hero = () => {
         return;
       }
       await refetch();
+      console.log("=====================", data);
 
       const tmpCurGasPrice = await getGasPrice(config, { chainId: mainnet.id });
       const tmpEstimaedGasAmount = await estimateGas(config, {
@@ -155,10 +165,21 @@ const Hero = () => {
 
   const dispReceiveAmount = () => {
     if (receiveAmount?.result) {
+
+      const result = Math.round(
+        Number(BigInt(receiveAmount.result.toString())) * 1.0 * (10 **   4) / (10 ** 18)
+      ) / (10 ** 4);
+      return result;
+    }
+  };
+  
+  const dispLswBalance = () => {
+    if (_lswbalance?.result) {
       return (
-        BigInt(receiveAmount.result.toString()) / BigInt(10 ** 18)
+        BigInt(_lswbalance.result.toString())
       ).toString();
     }
+    return 0;
   };
 
   const dispMaxButton = () => {
@@ -336,7 +357,7 @@ const Hero = () => {
 
               <Grid className="bg-[#001C29] w-full rounded-md gap-4 p-4">
                 <input
-                  type="text"
+                  type="number"
                   value={dispReceiveAmount()}
                   readOnly
                   className="text-white w-[100%] rounded bg-transparent outline-none"
@@ -346,9 +367,21 @@ const Hero = () => {
               </Grid>
             </Block>
 
-            <Grid className="px-[10%] pb-[4%] justify-between">
+            <Grid className="px-[10%] justify-between">
               {dispBuyButton()}
             </Grid>
+
+            <div className = "px-[10%] flex flex-row gap-5 ">
+              <p className = "text-[15px] font-bold text-[#AFAFAF] w-[150px]">LSW balance</p>
+              
+              <input
+                  type="text"
+                  value={dispLswBalance()}
+                  readOnly
+                  className="text-white w-[100%] rounded bg-transparent outline-none"
+                />
+
+            </div>
           </Grid>
         </Grid>
       </div>

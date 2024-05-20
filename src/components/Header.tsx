@@ -4,6 +4,7 @@ import Image from "./Image";
 import Discord from "../assets/icons/discord.svg";
 import Twitter from "../assets/icons/twitter.svg";
 import Telegram from "../assets/icons/telegram.svg";
+import Link from "next/link";
 
 type Menu = {
   id: number;
@@ -85,9 +86,9 @@ const Header = () => {
           </nav>
           <div className="md:block hidden">
             <div className="flex items-center gap-6 xl:mt-0">
-              <Image src={Twitter} className="!w-[34px] !h-[34px]" />
-              <Image src={Telegram} className="!w-[34px] !h-[34px]" />
-              <Image src={Discord} className="!w-[34px] !h-[34px]" />
+              <a target = "_blank" href= "https://twitter.com/#"><Image src={Twitter} className="!w-[34px] !h-[34px] hover:cursor-pointer" /></a>
+              <a target = "_blank"   href= "https://telegram.com/#"><Image src={Telegram} className="!w-[34px] !h-[34px]  hover:cursor-pointer" /></a>
+              <a target = "_blank"   href= "https://discord.com/#"><Image src={Discord} className="!w-[34px] !h-[34px]  hover:cursor-pointer" /></a>
             </div>
           </div>
           <w3m-connect-button label="Connect" />
