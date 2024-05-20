@@ -25,6 +25,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
   useChainId,
+  useReadContract
 } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
@@ -42,31 +43,40 @@ const Hero = () => {
   const [buyAmount, setBuyAmount] = useState<string>("");
   const [gasFee, setGasFee] = useState<BigInt>(BigInt(0)); // in Gwei
 
-  const { data, refetch } = useReadContracts({
-    contracts: [
-      {
+  const { address } = useAccount();
+  const balance = useBalance({ address: address });
+
+  const {isConnected} = useAccount();
+
+  const { data : TokenPrice, refetch : refetchCalcPrice } = useReadContract({
         abi: abi,
         address: contractAddress,
         chainId: mainnet.id,
         functionName: "calcPrice",
         args: [parseFloat(buyAmount) * 10 ** 18],
-      },
-      {
+  });
+
+    const { data : TokenBalance, refetch : refetchBalance } = useReadContract({
         abi: abi,
         address: contractAddress,
         chainId: mainnet.id,
         functionName: "balance",
-      },
-    ],
-  });
+        account: address,
+    });
+
+    useEffect(() => {
+      if(!isConnected) return;
+
+      async function exec() {
+        await refetchBalance();
+      }
+      exec();
+      
+    } , [isConnected]);
 
   let { data: hash, error, isPending, writeContract } = useWriteContract();
 
   const chainId = useChainId();
-
-  const { address } = useAccount();
-  const balance = useBalance({ address: address });
-
 
   useEffect(() => {
     if (address && chainId && chainId !== mainnet.id) {
@@ -83,16 +93,15 @@ const Hero = () => {
   }, [buyAmount]);
 
 
-  let receiveAmount = data?.[0];
-  let _lswbalance = data?.[1];
+  let receiveAmount = TokenPrice;
+  let _lswbalance = TokenBalance;
 
   const calcReceiveAmount = async () => {
     try {
       if (isNaN(parseFloat(buyAmount)) || parseFloat(buyAmount) <= 0) {
         return;
       }
-      await refetch();
-      console.log("=====================", data);
+      await refetchCalcPrice();
 
       const tmpCurGasPrice = await getGasPrice(config, { chainId: mainnet.id });
       const tmpEstimaedGasAmount = await estimateGas(config, {
@@ -154,7 +163,7 @@ const Hero = () => {
   const handleSendChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setBuyAmount(e.target.value);
     calcReceiveAmount();
-    refetch();
+    refetchCalcPrice();
   };
 
   const dispBalance = () => {
@@ -164,20 +173,21 @@ const Hero = () => {
   };
 
   const dispReceiveAmount = () => {
-    if (receiveAmount?.result) {
+    if (receiveAmount) {
 
       const result = Math.round(
-        Number(BigInt(receiveAmount.result.toString())) * 1.0 * (10 **   4) / (10 ** 18)
+        Number(BigInt(receiveAmount.toString())) * 1.0 * (10 ** 4) / (10 ** 18)
       ) / (10 ** 4);
       return result;
     }
   };
   
   const dispLswBalance = () => {
-    if (_lswbalance?.result) {
-      return (
-        BigInt(_lswbalance.result.toString())
-      ).toString();
+    console.log("=========================",_lswbalance);
+    if (_lswbalance) {
+      return Math.round(
+        Number(BigInt(_lswbalance.toString())) * 1.0 * (10 ** 4) / (10 ** 18)
+      ) / (10 ** 4);
     }
     return 0;
   };
