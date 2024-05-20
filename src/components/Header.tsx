@@ -4,7 +4,6 @@ import Image from "./Image";
 import Discord from "../assets/icons/discord.svg";
 import Twitter from "../assets/icons/twitter.svg";
 import Telegram from "../assets/icons/telegram.svg";
-import Link from "next/link";
 
 type Menu = {
   id: number;
